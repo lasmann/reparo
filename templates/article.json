@@ -1,40 +1,32 @@
 {
   "sections": {
-    "main": {
-      "type": "main-article",
+    "group": {
+      "type": "custom-section",
       "blocks": {
-        "featured_image": {
-          "type": "featured_image",
+        "text_Yazh3p": {
+          "type": "text",
           "settings": {
-            "image_height": "adapt"
+            "text": "<p>This template is not available in the Theme blocks developer preview.<\/p>",
+            "text_style": "",
+            "alignment": "center"
           }
-        },
-        "title": {
-          "type": "title",
-          "settings": {
-            "blog_show_date": true,
-            "blog_show_author": false
-          }
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
-        },
-        "content": {
-          "type": "content"
         }
       },
       "block_order": [
-        "featured_image",
-        "title",
-        "share",
-        "content"
-      ]
+        "text_Yazh3p"
+      ],
+      "settings": {
+        "layout": {
+          "justify-content": "center"
+        },
+        "spacing": {
+          "padding": "100px 0px"
+        },
+        "color_scheme": "scheme-2"
+      }
     }
   },
   "order": [
-    "main"
+    "group"
   ]
 }
