@@ -265,6 +265,10 @@
     }
   },
   "sections": {
+    "free_shipping_bar":{
+      "free_shipping_text_html": "Add <b>{{ value }}</b> more to unlock </b>Free Shipping</b>",
+      "free_shipping_success_text_html": "Free Shipping unlocked"
+    },
     "announcements": {
       "previous_announcement": "Previous announcement",
       "next_announcement": "Next announcement",

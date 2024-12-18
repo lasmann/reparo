@@ -333,6 +333,8 @@
       window.cartStrings = {
         error: `{{ 'sections.cart.cart_error' | t }}`,
         quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+        freeShippingHTML: `{{ 'sections.free_shipping_bar.free_shipping_text_html' | t }}`,
+        freeShippingSuccessHTML: `{{ 'sections.free_shipping_bar.free_shipping_success_text_html' | t }}`
       };
 
       window.variantStrings = {
@@ -363,6 +365,8 @@
         recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
         countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
       };
+
+      
     </script>
 
     {%- if settings.predictive_search_enabled -%}
@@ -372,5 +376,9 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
-  </body>
+
+    {%- if settings.enable_free_shipping_bar -%}
+      <script src="{{ 'free-shipping-bar.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+</body>
 </html>

@@ -1414,6 +1414,40 @@
     ]
   },
   {
+    "name": "t:settings_schema.free_shipping_bar.name",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_free_shipping_bar",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "textarea",
+        "id": "free_shipping_bar_limit",
+        "label": "Free shipping threshold",
+        "info": "Set a free shipping limit in cents. If you offer free shipping on orders more than 50 USD, set 5000 here. If you want to set values for different currencies use the separator \",\"",
+        "default": "20000"
+      },
+      {
+        "type": "header",
+        "content": "Appearance"
+      },
+      {
+        "type": "color",
+        "id": "free_shipping_bar_range_bg",
+        "label": "Range Color",
+        "default": "#f8f8f8"
+      },
+      {
+        "type": "color",
+        "id": "free_shipping_bar_thumb_bg",
+        "label": "Range Color",
+        "default": "#000"
+      },
+    ]
+  },
+  {
     "name": "t:settings_schema.cart.name",
     "settings": [
       {

@@ -74,6 +74,9 @@
           </span>
         </button>
       </div>
+      <div class="drawer__free-shipping-bar"> 
+        {% render 'free-shipping-bar' %}
+      </div>
       <cart-drawer-items
         {% if cart == empty %}
           class=" is-empty"
