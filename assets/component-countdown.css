@@ -1,0 +1,28 @@
+.custom-countdown {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+} 
+
+
+.custom-countdown--center {
+    justify-content: center;
+}
+
+.custom-countdown--justify {
+    justify-content: space-between;
+}
+
+.custom-countdown--right {
+    justify-content: flex-end;
+}
+
+.custom-countdown__cell {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
