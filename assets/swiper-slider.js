@@ -3,7 +3,7 @@ class SwiperSlider extends HTMLElement {
     super();
     this.slideContainer = this.querySelector('[data-swiper]:not([data-swiper-thumbs])');
     this.slides = this.querySelectorAll('[data-swiper-slide]');
-    this.sliderOptions = { loop: true, ...this.parseOptions(this.dataset.options) };
+    this.sliderOptions = this.parseOptions(this.dataset.options);
     this.activeIndex = 0;
     this.initialized = false;
     this.thumbnails = this.querySelector('[data-swiper-thumbs]');
