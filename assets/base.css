@@ -457,6 +457,21 @@ table:not([class]) th {
   text-align: right;
 }
 
+@media screen and (max-width: 750px) {
+  .left--mobile {
+    text-align: left;
+  }
+  
+  .center--mobile {
+    text-align: center;
+  }
+  
+  .right--mobile {
+    text-align: right;
+  }
+}
+
+
 .uppercase {
   text-transform: uppercase;
 }
@@ -1153,6 +1168,7 @@ summary::-webkit-details-marker {
 }
 
 .media--circle {
+  width: 100%;
   padding-bottom: 100%;
   border-radius: 50%;
 }
