@@ -1,0 +1,68 @@
+.media-hover-effect{
+    position: relative;
+    overflow: hidden !important;
+}
+
+/* Effect: fade */
+.media-hover-effect--fade img {
+    will-change: opacity;
+    transition: opacity var(--duration-default) ease;
+}
+.media-hover-effect--fade:hover img {
+    opacity: 0.8;
+}
+
+/* Effect: zoom */
+.media-hover-effect--zoom img {
+    will-change: scale;
+    transition: all var(--duration-default) ease-in-out;
+}
+.media-hover-effect--zoom:hover img {
+    scale: 1.1;
+}
+
+
+
+/* Effect: Socials */
+.media-hover-effect-icon {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	visibility: hidden;
+	scale: 1.45;
+	z-index: 3;
+	width: 15% !important;
+	height: 15% !important;
+	color: rgb(var(--color-background));
+	transition: scale var(--duration-default) ease-in-out;
+	margin: auto;
+}
+
+.media-hover-effect--overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    scale: 1.5;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--duration-default) ease;
+    background: rgba(var(--color-foreground),0.4);
+    z-index: 2;
+}
+
+.media-hover-effect--overlay:hover::before {
+    scale: 1;
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.media-hover-effect--overlay:hover .media-hover-effect-icon {
+    scale: 1;
+    visibility: visible;
+}
