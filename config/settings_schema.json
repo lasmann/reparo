@@ -37,6 +37,16 @@
     "name": "t:settings_schema.colors.name",
     "settings": [
       {
+        "type": "header",
+        "content": "Accent Colors"
+      },
+      {
+        "type": "color",
+        "id": "star_rating_color",
+        "label": "Star Rating",
+        "default": "#000"
+      },
+      {
         "type": "color_scheme_group",
         "id": "color_schemes",
         "definition": [
@@ -1411,6 +1421,51 @@
         "label": "t:settings_schema.currency_format.settings.currency_code_enabled.label",
         "default": true
       }
+    ]
+  },
+  {
+    "name": "Back to top",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "back_to_top_enable",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "back_to_top_show_text",
+        "label": "Show text",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "back_to_top_show_icon",
+        "label": "Show icon",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "back_to_top_text",
+        "label": "Text",
+        "default": "Back to top"
+      },
+      {
+        "type": "range",
+        "id": "back_to_top_threshold",
+        "label": "Reveal after x% of page",
+        "min": 35,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 65
+      },
+      {
+        "type": "color_scheme",
+        "id": "back_to_top_color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
     ]
   },
   {

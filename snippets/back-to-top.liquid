@@ -1,0 +1,35 @@
+{% if settings.back_to_top_enable %}
+  <style>
+    .back-to-top-button {
+      position: fixed;
+      right: 1%;
+      bottom: 1%;
+      z-index: 6;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: all var(--duration-default) ease-in;
+    }
+
+    .back-to-top-button[is-visible] {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+  <back-to-top
+    class="back-to-top-button gradient color-{{ settings.back_to_top_color_scheme  }}"
+    threshold="{{ settings.back_to_top_threshold }}%"
+  >
+    <button class="button">
+      {% if settings.back_to_top_show_icon %}
+        <span class="button__icon">
+          {{ 'icon-arrow.svg' | inline_asset_content }}
+        </span>
+      {% endif %}
+      {% if settings.back_to_top_show_text %}
+        <span>{{ settings.back_to_top_text }}</span>
+      {% endif %}
+    </button>
+  </back-to-top>
+{% endif %}
