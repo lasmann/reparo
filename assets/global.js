@@ -1267,3 +1267,44 @@ class BulkAdd extends HTMLElement {
 if (!customElements.get('bulk-add')) {
   customElements.define('bulk-add', BulkAdd);
 }
+
+if (!customElements.get('clipboard-copy')) {
+  class ClipboardCopy extends HTMLElement {
+    constructor() {
+      super();
+      this.codeElement = this.querySelector('.js-clipboard-code');
+      this.copyButton = this.querySelector('.js-clipboard-button');
+      this.successMessage = this.querySelector('.js-clipboard-success-text');
+      this.initialize();
+    }
+
+    initialize() {
+      if (navigator.clipboard?.writeText) {
+        this.copyButton?.addEventListener('click', this.handleCopy.bind(this));
+        this.codeElement?.addEventListener('click', this.handleCopy.bind(this));
+      } else {
+        if (this.copyButton) this.copyButton.hidden = true;
+      }
+    }
+
+    handleCopy() {
+      const textToCopy = this.codeElement?.textContent?.trim() || '';
+      navigator.clipboard.writeText(textToCopy).then(
+        () => {
+          if (this.successMessage) {
+            this.setAttribute('success-message', 'visible');
+
+            setTimeout(() => {
+              this.setAttribute('success-message', 'hidden');
+            }, 2000);
+          }
+        },
+        () => {
+          console.log('Failed to copy the text. Please try again.');
+        }
+      );
+    }
+  }
+
+  customElements.define('clipboard-copy', ClipboardCopy);
+}
