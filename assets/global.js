@@ -1364,3 +1364,63 @@ customElements.define('accordion-row', AccordionRow);
 
 const accordionRow = document.createElement('accordion-row');
 document.body.appendChild(accordionRow);
+
+class BackToTopButton extends HTMLElement {
+  constructor() {
+    super();
+
+    this.scrollYThresholdPercentage = parseFloat(this.dataset.threshold || '50');
+    this.scrollYThreshold = this.calculateScrollThreshold();
+
+    this.scrollToTop = this.scrollToTop.bind(this);
+    this.toggleVisibility = this.toggleVisibility.bind(this);
+    this.updateThreshold = this.updateThreshold.bind(this);
+
+    this.addEventListener('click', this.scrollToTop);
+    window.addEventListener('scroll', this.toggleVisibility);
+    window.addEventListener('resize', this.updateThreshold);
+  }
+
+  connectedCallback() {
+    this.updateThreshold();
+    this.toggleVisibility();
+  }
+
+  calculateScrollThreshold() {
+    const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+    return (this.scrollYThresholdPercentage / 100) * pageHeight;
+  }
+
+  updateThreshold() {
+    this.scrollYThreshold = this.calculateScrollThreshold();
+    this.toggleVisibility();
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  toggleVisibility() {
+    const footer = document.querySelector('.shopify-section-group-footer-group');
+    const currentScrollY = window.scrollY;
+
+    if (!footer) return;
+
+    const footerRect = footer.getBoundingClientRect();
+    const footerVisible = footerRect.top <= window.innerHeight;
+
+    if (currentScrollY > this.scrollYThreshold && !footerVisible) {
+      this.setAttribute('is-visible', '');
+    } else {
+      this.removeAttribute('is-visible');
+    }
+  }
+
+  disconnectedCallback() {
+    this.removeEventListener('click', this.scrollToTop);
+    window.removeEventListener('scroll', this.toggleVisibility);
+    window.removeEventListener('resize', this.updateThreshold);
+  }
+}
+
+customElements.define('back-to-top', BackToTopButton);
