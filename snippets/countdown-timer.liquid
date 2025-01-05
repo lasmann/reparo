@@ -1,0 +1,47 @@
+{% assign now = 'now' | date: '%s' %}
+{% assign target_date = date | date: '%s' %}
+{% assign time_left = target_date | minus: now %}
+
+{% assign days = time_left | divided_by: 86400 | floor %}
+{% assign hours = time_left | modulo: 86400 | divided_by: 3600 | floor %}
+{% assign minutes = time_left | modulo: 3600 | divided_by: 60 | floor %}
+{% assign seconds = time_left | modulo: 60 %}
+
+{{ 'component-countdown.css' | asset_url | stylesheet_tag }}
+
+{% unless countdown_primary_size %}
+  {% assign countdown_primary_size = 'h3' %}
+{% endunless %}
+
+{% unless countdown_secondary_size %}
+  {% assign countdown_secondary_size = 'text-body' %}
+{% endunless %}
+
+<site-countdown data-target-date="{{ date }}">
+  <ul class="custom-countdown {{ class }}">
+    {% if show_days %}
+      <li class="custom-countdown__cell">
+        <span class="custom-countdown__value {{ countdown_primary_size }}" data-type="days">{{ days }}</span>
+        <span class="custom-countdown__unit {{ countdown_secondary_size }}">days</span>
+      </li>
+    {% endif %}
+    {% if show_hours %}
+      <li class="custom-countdown__cell">
+        <span class="custom-countdown__value {{ countdown_primary_size }}" data-type="hours">{{ hours }}</span>
+        <span class="custom-countdown__unit {{ countdown_secondary_size }}">hrs</span>
+      </li>
+    {% endif %}
+    {% if show_minutes %}
+      <li class="custom-countdown__cell">
+        <span class="custom-countdown__value {{ countdown_primary_size }}" data-type="minutes">{{ minutes }}</span>
+        <span class="custom-countdown__unit {{ countdown_secondary_size }}">min</span>
+      </li>
+    {% endif %}
+    {% if show_seconds %}
+      <li class="custom-countdown__cell">
+        <span class="custom-countdown__value {{ countdown_primary_size }}" data-type="seconds">{{ seconds }}</span>
+        <span class="custom-countdown__unit {{ countdown_secondary_size }}">sec</span>
+      </li>
+    {% endif %}
+  </ul>
+</site-countdown>
