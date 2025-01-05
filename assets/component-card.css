@@ -526,27 +526,33 @@
   display: none;
 }
 
-.grid__item:nth-child(2n) .shape--blob {
+.grid__item:nth-child(2n) .shape--blob,
+.swiper-slide:nth-child(2n) .shape--blob {
   clip-path: polygon(var(--shape--blob-2));
 }
 
-.grid__item:nth-child(3n) .shape--blob {
+.grid__item:nth-child(3n) .shape--blob,
+.swiper-slide:nth-child(3n) .shape--blob {
   clip-path: polygon(var(--shape--blob-3));
 }
 
-.grid__item:nth-child(4n) .shape--blob {
+.grid__item:nth-child(4n) .shape--blob,
+.swiper-slide:nth-child(4n) .shape--blob {
   clip-path: polygon(var(--shape--blob-4));
 }
 
-.grid__item:nth-child(5n) .shape--blob {
+.grid__item:nth-child(5n) .shape--blob,
+.swiper-slide:nth-child(5n) .shape--blob {
   clip-path: polygon(var(--shape--blob-5));
 }
 
-.grid__item:nth-child(7n) .shape--blob {
+.grid__item:nth-child(7n) .shape--blob,
+.swiper-slide:nth-child(7n) .shape--blob {
   clip-path: polygon(var(--shape--blob-6));
 }
 
-.grid__item:nth-child(8n) .shape--blob {
+.grid__item:nth-child(8n) .shape--blob,
+.swiper-slide:nth-child(8n) .shape--blob {
   clip-path: polygon(var(--shape--blob-1));
 }
 

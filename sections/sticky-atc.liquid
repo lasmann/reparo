@@ -1,0 +1,354 @@
+{{ 'component-sticky-bar.css' | asset_url | stylesheet_tag }}
+
+{% assign sticky_atc_product_form = 'sticky-atc-product-form' %}
+
+{% if product.metafields.custom.product_sticky_atc_image != blank %}
+  {% assign sticky_atc_image = product.metafields.custom.product_sticky_atc_image.value %}
+{% else %}
+  {% assign sticky_atc_image = product.featured_image %}
+{% endif %}
+
+{% assign atc_information_hidden = false %}
+{% unless section.settings.desktop_show_image
+  and section.settings.desktop_show_price
+  and section.settings.desktop_show_title
+%}
+  {% assign atc_information_hidden = true %}
+{% endunless %}
+
+<sticky-bar
+  data-offset="-1s"
+  data-height
+  data-target=".product__info-container .product-form__submit"
+  style="
+    {% unless section.settings.desktop_show_padding %}--sticky-bar-custom-padding-desktop: 0rem {% endunless %};
+    {% unless section.settings.mobile_show_padding %}--sticky-bar-custom-padding-mobile: 0rem {% endunless %};
+  "
+  class="
+    sticky-bar
+    {% unless section.settings.desktop_show_background %}
+    sticky-bar--no-background-desktop
+    {% endunless %}
+    {% unless section.settings.mobile_show_background %}
+    sticky-bar--no-background-mobile
+    {% endunless %}
+    sticky-bar--{{ section.settings.mobile_sticky_bar_width }}-mobile
+    sticky-bar--{{ section.settings.mobile_sticky_bar_position }}-mobile
+    sticky-bar--{{ section.settings.sticky_bar_width }}
+    sticky-bar--{{ section.settings.sticky_bar_position }}
+    {% if section.settings.sticky_bar_width == "full-width" %}
+    color-{{ section.settings.color_scheme }} gradient
+    {% endif %}
+  "
+>
+  <div
+    class="
+      sticky-bar__wrapper
+      {% if section.settings.sticky_bar_width == "page-width" %}
+      color-{{ section.settings.color_scheme }} gradient
+      {% endif %}
+    "
+  >
+    <div
+      class="sticky-bar__information"
+      {% if atc_information_hidden %}
+        style="display: none"
+      {% endif %}
+    >
+      <div
+        class="
+          sticky-bar__media
+          {% unless section.settings.desktop_show_image %} large-up-hide {% endunless %}
+          {% unless section.settings.mobile_show_image %} small-hide {% endunless %}
+        "
+      >
+        <div class="classic-media">
+          <img
+            src="{{ sticky_atc_image | image_url: width: 330 }}"
+            {% if sticky_atc_image != blank %}
+              alt="{{ sticky_atc_image.alt | escape }}"
+            {% else %}
+              role="presentation"
+            {% endif %}
+            height="auto"
+            width="auto"
+            loading="lazy"
+          >
+        </div>
+      </div>
+      <div class="sticky-bar__description">
+        <h4
+          class="
+            sticky-bar__title
+            {% unless section.settings.desktop_show_title %} large-up-hide {% endunless %}
+            {% unless section.settings.mobile_show_title %} small-hide {% endunless %}
+          "
+        >
+          {{ product.title }}
+        </h4>
+        <div
+          class="
+            sticky-atc-form__price no-js-hidden
+            {% unless section.settings.desktop_show_price %} large-up-hide {% endunless %}
+            {% unless section.settings.mobile_show_price %} small-hide {% endunless %}
+          "
+          id="price-{{ section.id }}"
+          role="status"
+        >
+          {%- render 'price', product: product, use_variant: true, show_badges: false, price_class: 'price--larger' -%}
+        </div>
+      </div>
+    </div>
+    <div class="sticky-bar__buy-button">
+      <product-form
+        class="product-form"
+        data-hide-errors="{{ gift_card_recipient_feature_active }}"
+        data-section-id="{{ section.id }}"
+      >
+        <div class="product-form__error-message-wrapper" role="alert" hidden>
+          <span class="svg-wrapper">
+            {{- 'icon-error.svg' | inline_asset_content -}}
+          </span>
+          <span class="product-form__error-message"></span>
+        </div>
+
+        {%- form 'product',
+          product,
+          id: sticky_atc_product_form,
+          class: 'form',
+          novalidate: 'novalidate',
+          data-type: 'add-to-cart-form'
+        -%}
+          <input
+            type="hidden"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+            {% if product.selected_or_first_available_variant.available == false
+              or quantity_rule_soldout
+              or product.selected_or_first_available_variant == null
+            %}
+              disabled
+            {% endif %}
+            class="product-variant-id"
+          >
+
+          {%- if gift_card_recipient_feature_active -%}
+            {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+          {%- endif -%}
+
+          <div class="product-form__buttons">
+            {%- liquid
+              assign check_against_inventory = true
+              if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
+                assign check_against_inventory = false
+              endif
+              if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+                assign quantity_rule_soldout = true
+              endif
+            -%}
+            <button
+              id="ProductSubmitButton-{{ section_id }}"
+              type="submit"
+              name="add"
+              class="button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+              {% if product.selected_or_first_available_variant.available == false
+                or quantity_rule_soldout
+                or product.selected_or_first_available_variant == null
+              %}
+                disabled
+              {% endif %}
+            >
+              <span class="button__text">
+                {%- if product.selected_or_first_available_variant == null -%}
+                  {{ 'products.product.unavailable' | t }}
+                {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- else -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                  <span
+                    class="
+                      {% unless section.settings.desktop_show_in_button_price %} large-up-hide {% endunless %}
+                      {% unless section.settings.mobile_show_in_button_price %} small-hide {% endunless %}
+                    "
+                  >
+                    •
+                    {{ product.price | money }}
+                  </span>
+                {%- endif -%}
+              </span>
+              {%- render 'loading-spinner' -%}
+            </button>
+          </div>
+        {%- endform -%}
+      </product-form>
+    </div>
+  </div>
+</sticky-bar>
+<script src="{{ 'sticky-bar.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name": "Sticky Buy Button",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Appereance"
+    },
+    {
+      "type": "select",
+      "id": "sticky_bar_width",
+      "label": "Width",
+      "default": "page-width",
+      "options": [
+        {
+          "label": "Page Width",
+          "value": "page-width"
+        },
+        {
+          "label": "Full Width",
+          "value": "full-width"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "sticky_bar_position",
+      "label": "Position",
+      "default": "top",
+      "options": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "desktop_show_background",
+      "label": "Show Background",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "desktop_show_padding",
+      "label": "Show Padding",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "desktop_show_image",
+      "label": "Show Image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "desktop_show_title",
+      "label": "Show Title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "desktop_show_price",
+      "label": "Show Price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "desktop_show_in_button_price",
+      "label": "Show Price inside but button",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Mobile Appereance"
+    },
+    {
+      "type": "select",
+      "id": "mobile_sticky_bar_width",
+      "label": "Width",
+      "default": "page-width",
+      "options": [
+        {
+          "label": "Page Width",
+          "value": "page-width"
+        },
+        {
+          "label": "Full Width",
+          "value": "full-width"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_sticky_bar_position",
+      "label": "Position",
+      "default": "top",
+      "options": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_show_background",
+      "label": "Show Background",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_show_padding",
+      "label": "Show Padding",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_show_image",
+      "label": "Show Image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_show_title",
+      "label": "Show Title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_show_price",
+      "label": "Show Price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_show_in_button_price",
+      "label": "Show Price inside but button",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky Buy Button"
+    }
+  ]
+}
+{% endschema %}

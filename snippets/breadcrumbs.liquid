@@ -1,0 +1,276 @@
+{%- comment -%}
+  Options:
+  - full_width {Boolean}
+  - display_coll_list_link {Boolean} - Toggle for showing collection links (default: false).
+  - enable_next_prev {Boolean} - Enable previous/next navigation on product pages (default: false).
+  - include_rss {Boolean} - Display RSS link on blog pages (default: false).
+  - separator {String} - Markup for the separator (optional).
+  - back_icon {String} - Markup for the previous item button (optional).
+  - forward_icon {String} - Markup for the next item button (optional).
+
+  Example:
+  {%- capture separator -%}
+    <span class="symbol">{% render 'symbol-chevron-right' %}</span>
+  {%- endcapture -%}
+  {% render 'navigation_path', separator: separator, enable_next_prev: true %}
+{%- endcomment -%}
+<style>
+  {{ 'component-breadcrumbs.css' | inline_asset_content }}
+</style>
+
+{%- liquid
+  assign display_breadcrumbs = true
+  assign enable_json_ld = true
+  assign display_coll_list_link = false
+  assign breadcrumb_label = 'Breadcrumbs'
+  assign homepage_label = 'Homepage'
+  assign other_views = 'blog, cart, all-collections, page, lookup' | split: ', '
+
+  if template.name == 'blog' or template.name == 'page'
+    assign page_title = [template.name].title
+    assign page_link = [template.name].url
+  elsif template.name == 'all-collections'
+    assign page_title = 'Collections'
+    assign page_link = routes.collections_url
+  elsif template.name == 'collection' or template.name == 'product'
+    assign collections_label = 'Collections'
+  elsif template.name == 'cart'
+    assign page_title = 'Cart'
+    assign page_link = routes.cart_url
+    assign enable_json_ld = false
+  elsif template.directory == 'accounts'
+    assign page_title = 'Account'
+    assign page_link = routes.account_url
+    assign enable_json_ld = false
+  endif
+-%}
+
+{%- if template.name == 'blog' and current_tags -%}
+  {%- liquid
+    assign tag_handles = null | sort | compact
+    for tag in current_tags
+      assign tag_handle = tag | handleize | sort
+      assign tag_handles = tag_handles | concat: tag_handle
+    endfor
+    assign tag_handles = tag_handles
+  -%}
+
+  {%- capture blog_tag_url -%}{{ blog.url }}/tagged/{{ tag_handles | join: "+" }}{%- endcapture -%}
+{%- endif -%}
+
+{% unless separator %}
+  {% capture separator %}
+        <span class="svg-wrapper">
+        {{ 'icon-arrow.svg' | inline_asset_content }}
+        </span>
+    {% endcapture %}
+{% endunless %}
+
+{% unless back_icon %}
+  {% capture back_icon %}
+        <span class="svg-wrapper">
+        {{ 'icon-arrow.svg' | inline_asset_content }}
+        </span>
+    {% endcapture %}
+{% endunless %}
+
+{% unless forward_icon %}
+  {% capture forward_icon %}
+        <span class="svg-wrapper">
+        {{ 'icon-arrow.svg' | inline_asset_content }}
+        </span>
+    {% endcapture %}
+{% endunless %}
+
+{%- capture json_ld_data -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": {{ homepage_label | json }},
+          "item": {{ shop.url | append: routes.root_url | json }}
+        },
+
+        {%- if template.name == 'collection' and collection.handle -%}
+          {%- assign coll_pos = 2 -%}
+          {%- if display_coll_list_link -%}
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": {{ collections_label | json }},
+              "item": {{ shop.url | append: routes.collections_url | json }}
+            },
+            {%- assign coll_pos = 3 -%}
+          {%- endif -%}
+          {
+            "@type": "ListItem",
+            "position": {{ coll_pos }},
+            "name": {{ collection.title | json }},
+            "item": {{ shop.url | append: collection.url | json }}
+          }
+
+        {%- elsif template.name == 'product' -%}
+          {%- assign prod_pos = 2 -%}
+          {%- if collection -%}
+            {%- if display_coll_list_link -%}
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ collections_label | json }},
+                "item": {{ shop.url | append: routes.collections_url | json }}
+              },
+              {%- assign prod_pos = 3 -%}
+            {%- endif -%}
+            {
+              "@type": "ListItem",
+              "position": {{ prod_pos }},
+              "name": {{ collection.title | json }},
+              "item": {{ shop.url | append: collection.url | json }}
+            },
+            {%- if display_coll_list_link -%}
+              {%- assign prod_pos = 4 -%}
+            {%- else -%}
+              {%- assign prod_pos = 3 -%}
+            {%- endif -%}
+          {%- endif -%}
+          {
+            "@type": "ListItem",
+            "position": {{ prod_pos }},
+            "name": {{ product.title | json }},
+            "item": {{ shop.url | append: product.url | json }}
+          }
+
+        {%- elsif template.name == 'blog' and current_tags -%}
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ blog.title | json }},
+            "item": {{ shop.url | append: blog.url | json }}
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": {{ current_tags | join: ", " | json }},
+            "item": {{ shop.url | append: blog_tag_url | json }}
+          }
+
+        {%- elsif template.name == 'article' -%}
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ blog.title | json }},
+            "item": {{ shop.url | append: blog.url | json }}
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": {{ article.title | json }},
+            "item": {{ shop.url | append: article.url | json }}
+          }
+
+        {%- else -%}
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ page_title | json }},
+            "item": {{ shop.url | append: page_link | json }}
+          }
+        {%- endif -%}
+      ]
+    }
+  </script>
+{%- endcapture -%}
+
+{%- capture breadcrumbs_markup -%}
+  <nav class="breadcrumb-navigation page-width {% if full_width %} page-width--full-width {% endif %}" aria-label="{{ breadcrumb_label }}">
+    <ol class="breadcrumb-list">
+      <li class="breadcrumb-list__item">
+        <a class="breadcrumb-link" href="{{ routes.root_url }}">{{ homepage_label | escape }}</a> {{ separator }}
+      </li>
+
+      {%- if template.name == 'collection' and collection.handle -%}
+        {%- if display_coll_list_link -%}
+          <li class="breadcrumb-list__item">
+            <a class="breadcrumb-link" href="{{ routes.collections_url }}">{{ collections_label | escape }}</a> {{ separator }}
+          </li>
+        {%- endif -%}
+        <li class="breadcrumb-list__item">
+          <a class="breadcrumb-link" href="{{ routes.collections_url }}/{{ collection.handle }}" aria-current="page">{{ collection.title | escape }}</a>
+        </li>
+
+      {%- elsif template.name == 'product' -%}
+        {%- if collection -%}
+          {%- if display_coll_list_link -%}
+            <li class="breadcrumb-list__item">
+              <a class="breadcrumb-link" href="{{ routes.collections_url }}">{{ collections_label | escape }}</a> {{ separator }}
+            </li>
+          {%- endif -%}
+          <li class="breadcrumb-list__item">
+            <a class="breadcrumb-link" href="{{ collection.url }}">{{ collection.title | escape }}</a> {{ separator }}
+          </li>
+        {%- endif -%}
+        <li class="breadcrumb-list__item">
+          <a class="breadcrumb-link" href="{{ product.url }}" aria-current="page">{{ product.title | escape }}</a>
+        </li>
+
+      {%- elsif template.name == 'blog' and current_tags -%}
+        <li class="breadcrumb-list__item">
+          <a class="breadcrumb-link" href="{{ blog.url }}">{{ blog.title | escape }}</a> {{ separator }}
+        </li>
+        <li class="breadcrumb-list__item">
+          <a class="breadcrumb-link" href="{{ blog_tag_url }}" aria-current="page">{{ current_tags | join: ", " }}</a>
+
+          {%- if include_rss -%}
+            <a class="breadcrumb-link breadcrumb-link--rss" href="{{ blog.url }}.atom" title="RSS" arial-label="RSS">{% render 'symbol-rss' %}</a>
+          {%- endif -%}
+        </li>
+
+      {%- elsif template.name == 'article' -%}
+        <li class="breadcrumb-list__item">
+          <a class="breadcrumb-link" href="{{ blog.url }}">{{ blog.title | escape }}</a> {{ separator }}
+        </li>
+        <li class="breadcrumb-list__item">
+          <a class="breadcrumb-link" href="{{ article.url }}" aria-current="page">{{ article.title | escape }}</a>
+        </li>
+
+      {%- elsif other_views contains template.name or template.directory == 'accounts' -%}
+        <li class="breadcrumb-list__item">
+          <a class="breadcrumb-link" href="{{ page_link }}" aria-current="page">{{ page_title | escape }}</a>
+
+          {%- if include_rss -%}
+            <a class="breadcrumb-link breadcrumb-link--rss" href="{{ blog.url }}.atom" title="RSS" arial-label="RSS">{% render 'symbol-rss' %}</a>
+          {%- endif -%}
+        </li>
+
+      {%- else -%}
+        {%- assign display_breadcrumbs = false -%}
+      {%- endif -%}
+    </ol>
+
+    {%- if enable_next_prev and template contains 'product' and collection -%}
+      <div class="breadcrumb-nav-items breadcrumb-list__item">
+        {%- if collection.previous_product -%}
+          <a class="breadcrumb-nav-item breadcrumb-nav-item--back breadcrumb-list__item" href="{{ collection.previous_product.url }}" title="{{ collection.previous_product.title | escape }}">
+            {{ back_icon }} <span class="breadcrumb-nav-text">Previous product</span>
+          </a>
+        {%- endif -%}
+        {%- if collection.next_product -%}
+          <a class="breadcrumb-nav-item breadcrumb-nav-item--forward breadcrumb-list__item" href="{{ collection.next_product.url }}" title="{{ collection.next_product.title | escape }}">
+            <span class="breadcrumb-nav-text">Next product</span> {{ forward_icon }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </nav>
+{%- endcapture -%}
+
+{%- if display_breadcrumbs -%}
+  {%- if enable_json_ld -%}
+    {{ json_ld_data }}
+  {%- endif -%}
+  {{ breadcrumbs_markup }}
+{%- endif -%}

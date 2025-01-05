@@ -1,0 +1,65 @@
+/* Clipboard Copy Component */
+.clipboard-copy {
+    --transition-delay: calc(2 * var(--duration-default));
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgb(var(--color-foreground));
+    min-height: calc(4.5rem + var(--buttons-border-width) * 2);
+}
+
+.clipboard-copy > * {
+    line-height: ;
+    padding: 1rem 1.5rem;
+}
+
+/* Code Block */
+.clipboard-copy__code {
+    font-size: 1.4rem;
+    transition: all var(--duration-default) ease;
+    transition-delay: var(--transition-delay);
+}
+
+/* Button */
+.clipboard-copy__button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: unset;
+    border-left: 1px solid currentColor;
+    color: inherit;
+    transition: all var(--duration-default) ease;
+    transition-delay: var(--transition-delay);
+}
+
+/* Success State */
+clipboard-copy[success-message="visible"] > .clipboard-copy__code,
+clipboard-copy[success-message="visible"] > .clipboard-copy__button {
+    visibility: hidden;
+    opacity: 0;
+    transition-delay: 0;
+}
+
+.clipboard-copy__text {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: all var(--duration-default) ease;
+    transition-delay: var(--transition-delay);
+}
+
+clipboard-copy[success-message="hidden"] .clipboard-copy__text {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(100%);
+}

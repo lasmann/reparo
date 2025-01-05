@@ -31,6 +31,7 @@
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
@@ -308,10 +309,11 @@
     {%- endif -%}
 
     {% sections 'header-group' %}
-
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
+
+    {% render 'back-to-top' %}
 
     {% sections 'footer-group' %}
 
@@ -377,8 +379,18 @@
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
+
     {%- if settings.enable_free_shipping_bar -%}
       <script src="{{ 'free-shipping-bar.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    {% if settings.swatches_global_mode == 'buttons' %}
+      <script src="{{ 'color-option-previewer.js' |  asset_url }}" defer="defer"></script>
+    {% endif %}
+    
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'swiper-slider.js' |  asset_url }}" defer="defer"></script>
+
   </body>
 </html>

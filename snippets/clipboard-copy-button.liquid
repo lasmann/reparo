@@ -1,0 +1,12 @@
+{{ 'component-clipboard-copy.css' | asset_url | stylesheet_tag }}
+
+{% if content_to_copy %}
+  <clipboard-copy class="clipboard-copy" success-message="hidden">
+    <span class="clipboard-copy__code js-clipboard-code">{{ content_to_copy }}</span>
+    <button class="clipboard-copy__button full-unstyled-button js-clipboard-button">
+      <span class="svg-wrapper">{{ 'icon-clipboard.svg' | inline_asset_content }}</span>
+      <span>Copy</span>
+    </button>
+    <span class="clipboard-copy__text js-clipboard-success-text">Copied!</span>
+  </clipboard-copy>
+{% endif %}
