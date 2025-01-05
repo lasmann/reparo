@@ -1,0 +1,61 @@
+{% comment %}
+  CHANGE DESCRIPTION LATER
+
+
+  Accepts:
+  - avatar_image: {Object} Product Liquid object (optional)
+  - media_aspect_ratio: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
+  - image_shape: {String} Image mask to apply to the product image card. Values are "arch", "blob", "chevronleft", "chevronright", "diamond", "parallelogram", and "round". (optional)
+  - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
+  - show_vendor: {Boolean} Show the product vendor. Default: false
+  - show_rating: {Boolean} Show the product rating. Default: false
+  - extend_height: {Boolean} Card height extends to available container space. Default: true (optional)
+  - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
+  - skip_styles: {Boolean} Don't include component styles. Useful when rendering multiple product cards in a loop. Default: false (optional)
+  - quick_add: {Boolean} Show the quick add button.
+  - section_id: {String} The ID of the section that contains this card.
+  - horizontal_class: {Boolean} Add a card--horizontal class if set to true. Default: false (optional)
+  - horizontal_quick_add: {Boolean} Changes the quick add button styles when set to true. Default: false (optional)
+  - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-2' (optional)
+
+  Usage:
+  {% render 'testimonial_card' %}
+{% endcomment %}
+<div class="testimonial-card {{ testimonial_class }}">
+  <div class="testimonial-card__info">
+    {%- if avatar_image != blank -%}
+      <div class="testimonial-card__avatar">
+        {%- assign widths = '50, 60, 70, 80' -%}
+        {%- capture sizes -%}
+            (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
+            (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
+          {%- endcapture -%}
+        <span class="media media--circle {{ image_shape }}">
+          {{
+            avatar_image
+            | image_url: width: 80
+            | image_tag: sizes: sizes, widths: widths, fetchpriority: fetch_priority
+          }}
+        </span>
+      </div>
+    {%- endif -%}
+    {% if author_info %}
+      <div class="testimonial-card__name">{{ author_info }}</div>
+    {% endif %}
+    {% if star_rating_enabled %}
+      <div class="testimonial-card__rating">
+        {% render 'star-rating', star_rating: star_rating, show_star_rating_text: star_rating_text_enabled %}
+      </div>
+    {% endif %}
+  </div>
+  <blockquote class="testimonial-card__review">
+    <div class="testimonial-card__review-text {{ review_text_size }}">
+      {{ review_text }}
+    </div>
+  </blockquote>
+  {% if testimonial_linked_product %}
+    <div class="testimonial-card__product">
+      {% render 'product-upsell-card', product_upsell: testimonial_linked_product %}
+    </div>
+  {% endif %}
+</div>
