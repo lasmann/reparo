@@ -316,6 +316,9 @@
         }
       }
     },
+    "free_shipping_bar": {
+      "name": "Shipping Bar"
+    },
     "cart": {
       "name": "Cart",
       "settings": {

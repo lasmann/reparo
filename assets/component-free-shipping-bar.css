@@ -1,0 +1,33 @@
+.free-shipping-bar {
+  --free-shipping-bar-progress-height: 0.8rem;
+  --free-shipping-bar-padding: 1rem 0;
+  display: block;
+  padding: var(--free-shipping-bar-padding);
+}
+
+.free-shipping-bar > * + * {
+  margin-top: 1rem;
+}
+
+.free-shipping-bar__progress {
+  width: 100%;
+  display: block;
+  position: relative;
+  height: var(--free-shipping-bar-progress-height);
+  min-height: var(--free-shipping-bar-progress-height);
+  background: rgb(var(--progress-range-color));
+}
+
+.free-shipping-bar__thumb,
+.free-shipping-bar__thumb:empty {
+  display: block;
+  height: inherit;
+  min-height: inherit;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transition: width var(--duration-default) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: width;
+  background: rgb(var(--progress-thumb-color));
+}

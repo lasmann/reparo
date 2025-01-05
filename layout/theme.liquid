@@ -335,6 +335,8 @@
       window.cartStrings = {
         error: `{{ 'sections.cart.cart_error' | t }}`,
         quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+        freeShippingHTML: `{{ 'sections.free_shipping_bar.free_shipping_text_html' | t }}`,
+        freeShippingSuccessHTML: `{{ 'sections.free_shipping_bar.free_shipping_success_text_html' | t }}`,
       };
 
       window.variantStrings = {
@@ -365,6 +367,8 @@
         recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
         countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
       };
+
+      Shopify.money_format = '{{shop.money_format}}';
     </script>
 
     {%- if settings.predictive_search_enabled -%}
@@ -375,6 +379,11 @@
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
+
+    {%- if settings.enable_free_shipping_bar -%}
+      <script src="{{ 'free-shipping-bar.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
     {% if settings.swatches_global_mode == 'buttons' %}
       <script src="{{ 'color-option-previewer.js' |  asset_url }}" defer="defer"></script>
     {% endif %}
@@ -382,5 +391,6 @@
     <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
     {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'swiper-slider.js' |  asset_url }}" defer="defer"></script>
+
   </body>
 </html>
