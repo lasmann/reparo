@@ -1,0 +1,10 @@
+{% if heading %}
+  <div class="section-header {{ desktop_content_position }} {{ content_content_position }}">
+    <{{ heading_html_tag }} class="section-header__heading {{ heading_size }} {{ heading_weight }}">
+      {{ heading }}
+    </{{ heading_html_tag }}>
+    {% if link %}
+      <a class="link" src="{{ link_url }}">{{ link_label }}</a>
+    {% endif %}
+  </div>
+{% endif %}
