@@ -1,0 +1,180 @@
+.sticky-bar {
+    /* remove later */
+    --page-width-inline-padding: 1.5rem;
+    --sticky-bar-padding: var(--sticky-bar-custom-padding-mobile, 1.5rem);
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    visibility: hidden;
+    opacity: 0;
+    transition: 
+        opacity var(--duration-default) ease,
+        visibility var(--duration-default) ease,
+        transform var(--duration-default) ease;
+}
+
+.sticky-bar[is-sticky]{
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.sticky-bar--full-width {
+    border-top: .1rem solid rgb(var(--color-foreground), .1);
+}
+
+.sticky-bar--top-mobile {
+    top: 0;
+    transform: translateY(var(--header-height));
+
+}
+
+body:not(.header-visible) .sticky-bar--top-mobile{
+    transform: translateY(0);
+}
+
+.sticky-bar--bottom-mobile {
+    bottom : 0;   
+}
+
+.sticky-bar--no-background-mobile {
+    background: none;
+    border: 0;
+}
+
+@media screen and (min-width: 750px) {
+    .sticky-bar {
+        --page-width-inline-padding: 5rem;
+        --sticky-bar-padding: var(--sticky-bar-custom-padding-desktop, 1.5rem);
+    }
+    .sticky-bar--top {
+        top: 0;
+        transform: translateY(var(--header-height));
+    }
+
+    .sticky-bar--no-background-desktop {
+        background: none;
+        border: 0;
+    }
+    
+    body:not(.header-visible) .sticky-bar--top{
+        transform: translateY(0);
+    }
+    
+    .sticky-bar--bottom {
+        bottom : 0;   
+    }
+}
+
+/* Sticky bar: Layout */
+.sticky-bar__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: calc(var(--page-width) - 2 * var(--page-width-inline-padding, 5rem) + 2 * var(--sticky-bar-padding));
+    width: 100%;
+    margin-inline: auto;
+    padding: var(--sticky-bar-padding);
+    gap: var(--sticky-bar-padding);
+}
+
+.sticky-bar__wrapper  > * {
+    width: 100%;
+}
+
+.sticky-bar--full-width-mobile.sticky-bar--top .sticky-bar__wrapper {
+    border-bottom: .1rem solid rgb(var(--color-foreground), .1);
+}
+
+.sticky-bar--full-width-mobile.sticky-bar--bottom .sticky-bar__wrapper {
+    border-top: .1rem solid rgb(var(--color-foreground), .1);
+}
+
+
+.sticky-bar--no-background-mobile .sticky-bar__wrapper{
+    background: none;
+    border: 0 !important;
+}
+
+.sticky-bar--full-width-mobile .sticky-bar__wrapper {
+    max-width: 100%;
+    width: 100%;
+}
+@media screen and (min-width: 750px) {
+    .sticky-bar__wrapper {
+        width: 100%;
+        flex-wrap: nowrap;
+    }
+
+    .sticky-bar__wrapper  > * {
+        width: auto;
+    }
+
+    .sticky-bar__wrapper > .sticky-bar__buy-button {
+        margin-left: auto;
+        flex-grow: 1;
+    }
+
+    .sticky-bar--page-width .sticky-bar__wrapper {
+        margin-inline: auto;
+    }
+
+    .sticky-bar--no-background-desktop .sticky-bar__wrapper {
+        background: none;
+        border: 0;
+    }
+
+
+    .sticky-bar--page-width .sticky-bar__wrapper {
+        border: .1rem solid rgb(var(--color-foreground),.1);
+        position: relative;
+        margin-inline: auto;
+        width: calc(100% - 2 * var(--sticky-bar-padding));
+        max-width: calc(var(--page-width) - 2 * var(--page-width-inline-padding, 5rem) + 2 * var(--sticky-bar-padding));
+    }
+    
+    .sticky-bar--page-width.sticky-bar--bottom .sticky-bar__wrapper {
+        bottom: var(--sticky-bar-padding);
+    }
+    
+    .sticky-bar--page-width.sticky-bar--top .sticky-bar__wrapper {
+        top: var(--sticky-bar-padding);
+    }
+    
+    
+    .sticky-bar--no-background-desktop .sticky-bar__wrapper {
+        background: none;
+        border: 0;
+    }
+}
+
+/* Sticky bar: Information */
+.sticky-bar__information {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: var(--sticky-bar-padding);
+	align-items: center;
+}
+
+.sticky-bar__title {
+	margin: 0;
+}
+
+.sticky-bar__media {
+	width: 10%;
+    min-width: 6rem;
+}
+
+
+.sticky-bar__buy-button .product-form__buttons {
+    max-width: 100%;
+}
+
+
+@media screen and (min-width: 750px) {
+    .sticky-bar__information {
+        display: flex;
+        align-items: center;
+    }
+}

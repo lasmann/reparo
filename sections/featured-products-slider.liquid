@@ -120,8 +120,8 @@
 
 {% capture section_slides %}
     {% assign skip_card_product_styles = false %}
-    {% if section.settings.collection != blank %}
-    {%- for product in section.settings.collection.products -%}
+    {% if section.settings.product_list != blank %}
+    {%- for product in section.settings.product_list -%}
       <li
         id="Slide-{{ section.id }}-{{ forloop.index }}"
         class="swiper-slide {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -378,9 +378,9 @@
       "content": "Product Cards"
     },
     {
-      "type": "collection",
-      "id": "collection",
-      "label": "Collection"
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products"
     },
     {
       "type": "select",
@@ -682,9 +682,101 @@
       "default": 52
     }
   ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "image_shape",
+          "options": [
+            {
+              "value": "default",
+              "label": "t:sections.all.image_shape.options__1.label"
+            },
+            {
+              "value": "arch",
+              "label": "t:sections.all.image_shape.options__2.label"
+            },
+            {
+              "value": "blob",
+              "label": "t:sections.all.image_shape.options__3.label"
+            },
+            {
+              "value": "chevronleft",
+              "label": "t:sections.all.image_shape.options__4.label"
+            },
+            {
+              "value": "chevronright",
+              "label": "t:sections.all.image_shape.options__5.label"
+            },
+            {
+              "value": "diamond",
+              "label": "t:sections.all.image_shape.options__6.label"
+            },
+            {
+              "value": "parallelogram",
+              "label": "t:sections.all.image_shape.options__7.label"
+            },
+            {
+              "value": "round",
+              "label": "t:sections.all.image_shape.options__8.label"
+            }
+          ],
+          "default": "default",
+          "label": "t:sections.all.image_shape.label",
+          "info": "t:sections.all.image_shape.info"
+        },
+        {
+          "type": "select",
+          "id": "image_hover_effect",
+          "label": "Hover effect",
+          "options": [
+            {
+              "value": "fade",
+              "label": "Fade"
+            },
+            {
+              "value": "zoom",
+              "label": "Zoom"
+            },
+            {
+              "value": "icon-instagram",
+              "label": "Instagram"
+            },
+            {
+              "value": "icon-facebook",
+              "label": "Facebook"
+            },
+            {
+              "value": "icon-tiktok",
+              "label": "TikTok"
+            }
+          ]
+        },
+        {
+          "type": "richtext",
+          "id": "heading",
+          "label": "Heading",
+          "default": "<p>@somewhere</p>"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Featured Collection"
+      "name": "Featured products (slider)"
     }
   ]
 }

@@ -1,0 +1,28 @@
+<accordion-row
+  animate
+  class="accordion color-{{section.settings.container_color_scheme}} gradient"
+>
+  <details
+    id="Details-{{ accordion_id }}-{{ section.id }}"
+    {% if is_open %}
+      open
+    {% endif %}
+  >
+    <summary id="Summary-{{ accordion_id }}-{{ section.id }}">
+      <h3 class="accordion__title uppercase accordion__title--body accordion__title--medium inline-richtext">
+        {{ accordion_title }}
+      </h3>
+      <span class="accordion__icon">
+        {{- 'icon-caret.svg' | inline_asset_content -}}
+      </span>
+    </summary>
+    <div
+      class="accordion__content rte text-body text-body--smaller"
+      id="CollapsibleAccordion-{{ accordion_id }}-{{ section.id }}"
+      role="region"
+      aria-labelledby="Summary-{{ accordion_id }}-{{ section.id }}"
+    >
+      {{ accordion_content }}
+    </div>
+  </details>
+</accordion-row>

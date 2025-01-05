@@ -1308,3 +1308,160 @@ if (!customElements.get('clipboard-copy')) {
 
   customElements.define('clipboard-copy', ClipboardCopy);
 }
+
+class AccordionRow extends HTMLElement {
+  constructor() {
+    super();
+
+    this.details = this.querySelector('details');
+    this.summary = this.querySelector('summary');
+    this.content = this.querySelector('.accordion__content');
+
+    this.animation = null;
+    this.isClosing = false;
+    this.isExpanding = false;
+
+    if (this.summary) {
+      this.summary.addEventListener('click', (e) => this.onClick(e));
+    }
+  }
+
+  onClick(e) {
+    e.preventDefault();
+
+    this.details.style.overflow = 'hidden';
+    if (this.isClosing || !this.details.open) {
+      this.open();
+    } else if (this.isExpanding || this.details.open) {
+      this.shrink();
+    }
+  }
+
+  shrink() {
+    this.isClosing = true;
+
+    const summaryStyle = window.getComputedStyle(this.summary);
+    const startHeight = `${this.details.offsetHeight}px`;
+    const endHeight = `${this.summary.offsetHeight + parseInt(summaryStyle.marginTop)}px`;
+
+    if (this.animation) {
+      this.animation.cancel();
+    }
+
+    this.animation = this.details.animate(
+      {
+        height: [startHeight, endHeight],
+      },
+      {
+        duration: 250,
+        easing: 'ease',
+      }
+    );
+
+    this.animation.onfinish = () => this.onAnimationFinish(false);
+    this.animation.oncancel = () => (this.isClosing = false);
+  }
+
+  open() {
+    this.details.style.height = `${this.details.offsetHeight}px`;
+    this.details.open = true;
+    window.requestAnimationFrame(() => this.expand());
+  }
+
+  expand() {
+    this.isExpanding = true;
+
+    const summaryStyle = window.getComputedStyle(this.summary);
+    const startHeight = `${this.details.offsetHeight}px`;
+    const endHeight = `${this.summary.offsetHeight + parseInt(summaryStyle.marginTop) + this.content.offsetHeight}px`;
+
+    if (this.animation) {
+      this.animation.cancel();
+    }
+
+    this.animation = this.details.animate(
+      {
+        height: [startHeight, endHeight],
+      },
+      {
+        duration: 400,
+        easing: 'ease-out',
+      }
+    );
+    this.animation.onfinish = () => this.onAnimationFinish(true);
+    this.animation.oncancel = () => (this.isExpanding = false);
+  }
+
+  onAnimationFinish(open) {
+    this.details.open = open;
+    this.animation = null;
+    this.isClosing = false;
+    this.isExpanding = false;
+    this.details.style.height = this.details.style.overflow = '';
+  }
+}
+
+customElements.define('accordion-row', AccordionRow);
+
+const accordionRow = document.createElement('accordion-row');
+document.body.appendChild(accordionRow);
+
+class BackToTopButton extends HTMLElement {
+  constructor() {
+    super();
+
+    this.scrollYThresholdPercentage = parseFloat(this.dataset.threshold || '50');
+    this.scrollYThreshold = this.calculateScrollThreshold();
+
+    this.scrollToTop = this.scrollToTop.bind(this);
+    this.toggleVisibility = this.toggleVisibility.bind(this);
+    this.updateThreshold = this.updateThreshold.bind(this);
+
+    this.addEventListener('click', this.scrollToTop);
+    window.addEventListener('scroll', this.toggleVisibility);
+    window.addEventListener('resize', this.updateThreshold);
+  }
+
+  connectedCallback() {
+    this.updateThreshold();
+    this.toggleVisibility();
+  }
+
+  calculateScrollThreshold() {
+    const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+    return (this.scrollYThresholdPercentage / 100) * pageHeight;
+  }
+
+  updateThreshold() {
+    this.scrollYThreshold = this.calculateScrollThreshold();
+    this.toggleVisibility();
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  toggleVisibility() {
+    const footer = document.querySelector('.shopify-section-group-footer-group');
+    const currentScrollY = window.scrollY;
+
+    if (!footer) return;
+
+    const footerRect = footer.getBoundingClientRect();
+    const footerVisible = footerRect.top <= window.innerHeight;
+
+    if (currentScrollY > this.scrollYThreshold && !footerVisible) {
+      this.setAttribute('is-visible', '');
+    } else {
+      this.removeAttribute('is-visible');
+    }
+  }
+
+  disconnectedCallback() {
+    this.removeEventListener('click', this.scrollToTop);
+    window.removeEventListener('scroll', this.toggleVisibility);
+    window.removeEventListener('resize', this.updateThreshold);
+  }
+}
+
+customElements.define('back-to-top', BackToTopButton);

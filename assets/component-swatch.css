@@ -23,3 +23,31 @@
   border-style: dashed;
   border-color: rgba(var(--color-foreground), 0.5);
 }
+
+
+.card-information--swatches {
+	position: relative;
+	margin-top: 1.5rem;
+  z-index: 2;
+}
+
+.color-swatch-list {
+  --gap: 1rem;
+  --swatch-input--size: 4rem;
+	display: flex;
+	align-items: center;
+	gap: var(--gap);
+}
+
+.color-swatch-list--mini{
+  --swatch-input--size: 3rem;
+}
+
+.color-swatch {
+  padding: .2rem;
+  border: .1rem solid transparent;
+}
+
+.color-swatch--selected {
+  border-color: rgba(var(--color-foreground),1);
+}
