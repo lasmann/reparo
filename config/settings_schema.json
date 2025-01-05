@@ -685,6 +685,60 @@
     ]
   },
   {
+    "name": "Swatches",
+    "settings": [
+        {
+          "type": "header",
+          "content": "Global settings"
+        },
+        {
+          "type": "select",
+          "id": "swatches_global_style",
+          "options": [
+            {
+              "value": "color",
+              "label": "Color"
+            },
+            {
+              "value": "featured_image",
+              "label": "Featured Image (variant)"
+            }
+          ],
+          "default": "color",
+          "label": "Swatches Style"
+        },
+        {
+          "type": "header",
+          "content": "Product Cards"
+        },
+        {
+          "type": "range",
+          "id": "swatches_limit_on_cards",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "unit": "s",
+          "default": 3,
+        },
+        {
+          "type": "select",
+          "id": "swatches_global_mode",
+          "options": [
+            {
+              "value": "links",
+              "label": "Links"
+            },
+            {
+              "value": "buttons",
+              "label": "buttons"
+            }
+          ],
+          "default": "buttons",
+          "label": "Swatches mode"
+        },
+    ]
+  },
+  {
     "name": "t:settings_schema.collection_cards.name",
     "settings": [
       {

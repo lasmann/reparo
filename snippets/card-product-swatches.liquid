@@ -1,0 +1,66 @@
+{% assign swatches_limit = settings.swatches_limit_on_cards %}
+{%- assign color_label_list = 'Color,Colour' | replace: ', ', ',' | downcase | split: ',' -%}
+
+<div class="card-information card-information--swatches">
+  {% for color_label in color_label_list %}
+    {% assign product_option = card_product.options_by_name[color_label] %}
+    {% if product_option != blank %}
+      {% assign variant_option = 'option' | append: product_option.position %}
+      {% capture color_name %}{{ section.id }}-{{ card_product.id }}{% endcapture %}
+
+      {% if settings.swatches_global_mode == 'buttons' %}
+        <color-option-previewer class="product-item-meta__swatch-list color-swatch-list color-swatch-list--mini">
+      {% else %}
+        <div class="product-item-meta__swatch-list color-swatch-list color-swatch-list--mini">
+      {% endif %}
+
+      {% for value in product_option.values limit: swatches_limit %}
+        {% assign variant_for_value = card_product.variants | where: variant_option, value | first %}
+        {% assign next_variant_media = card_product.media[variant_for_value.featured_media.position]
+          | default: card_product.media[1]
+        %}
+
+        {% if settings.swatches_global_mode == 'buttons' %}
+          <button
+            class="js-swatch-button full-unstyled-button color-swatch {% if card_product.selected_or_first_available_variant.id == variant_for_value.id %} color-swatch--selected {% endif %}"
+            data-target-url="{{ variant_for_value.url }}"
+            data-primary-src="{{ variant_for_value.featured_media | image_url  }}"
+            data-secondary-src="{{ next_variant_media | image_url  }}"
+          >
+            {% render 'swatch',
+              swatch: value.swatch,
+              swatch_featured_image: variant_for_value.featured_image,
+              shape: 'square',
+              class: swatch_extra_classes
+            %}
+            <span class="visually-hidden">{{ value }}</span>
+          </button>
+        {% else %}
+          <a
+            href="{{ variant_for_value.url }}"
+            {{ color_metaobject }}
+            class="color-swatch {% if card_product.selected_or_first_available_variant.id == variant_for_value.id %} color-swatch--selected {% endif %}"
+          >
+            {% render 'swatch',
+              swatch: value.swatch,
+              swatch_featured_image: variant_for_value.featured_image,
+              shape: 'square',
+              class: swatch_extra_classes
+            %}
+            <span class="visually-hidden">{{ value }}</span>
+          </a>
+        {% endif %}
+      {% endfor %}
+
+      {% if product_option.values.size > swatches_limit %}
+        <span class="color-swatch--count text-body text-body--tiny"
+          >+ {{ product_option.values.size | minus: swatches_limit -}}
+        </span>
+      {% endif %}
+
+      {% if settings.swatches_global_mode == 'buttons' %}</color-option-previewer>{% else %}</div>{% endif %}
+
+      {% break %}
+    {% endif %}
+  {% endfor %}
+</div>

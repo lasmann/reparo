@@ -309,7 +309,6 @@
     {%- endif -%}
 
     {% sections 'header-group' %}
-
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
@@ -375,6 +374,10 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    {% if settings.swatches_global_mode == 'buttons' %}
+      <script src="{{ 'color-option-previewer.js' |  asset_url }}" defer="defer"></script>
+    {% endif %}
     
     <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
     {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
