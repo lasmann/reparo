@@ -1,0 +1,346 @@
+{{ 'component-marquee-slider.css' | asset_url | stylesheet_tag }}
+
+{{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .gradient{
+      overflow: hidden;
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+{%- capture section_content -%}
+  {%- for i in (1..5) -%}
+    <ul class="marquee-slider__container list-unstyled">
+      {% for block in section.blocks %}
+        <li>
+          <div
+            style="--text-style: {{ block.settings.text_style }}"
+            class="
+              marquee-slider__content
+              {{ section.settings.text_transform }}
+              {% unless forloop.first %}motion-reduce:hidden{% endunless %}
+            "
+            {% unless forloop.first %}
+              aria-hidden="true"
+            {% endunless %}
+          >
+            <span class="marquee-slider__text">{{ block.settings.title }}</span>
+            {% if block.settings.image != blank and section.settings.enable_images %}
+              <span class="marquee-slider__media">
+                <div class="media {% if block.settings.image_shape and section.settings.image_shape != 'default' %} shape--{{ block.settings.image_shape }} {% endif %} media--{{ section.settings.image_ratio }}">
+                  {%- assign widths = '90, 100, 135, 165, 360' -%}
+                  {%- capture sizes -%}
+                    (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
+                    (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
+                  {%- endcapture -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 360
+                    | image_tag: sizes: sizes, widths: widths, fetchpriority: 'auto', loading: 'lazy'
+                  }}
+                </div>
+              </span>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {%- endfor -%}  
+{%- endcapture -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="marquee-slider marquee-slider--auto">
+    <marquee-slider
+      style="
+        --image-size-multiplier: {{ section.settings.image_size_multiplier }};
+        --text-weight: {{ section.settings.font_weight }};
+        --desktop-text-size:{{ section.settings.desktop_text_size }}px;
+        --tablet-text-size:{{ section.settings.tablet_text_size }}px;
+        --mobile-text-size:{{ section.settings.mobile_text_size }}px;
+        {% if section.settings.font == 'heading'%}
+        --font-family-setting: var(--font-heading-family);
+        {% else %}
+        --font-family-setting: var(--font-body-family);
+        {% endif %}
+      "
+      speed="{{ section.settings.scrolling_speed }}"
+      class="marquee-slider__wrapper"
+    >
+      {{- section_content -}}
+    </marquee-slider>
+  </div>
+</div>
+
+<script src="{{ 'marquee-slider.js' |  asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Marquee Slider",
+  "class": "shopify-section--marquee",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+    {
+      "type": "header",
+      "content": "Slider Settings"
+    },
+    {
+      "type": "range",
+      "id": "scrolling_speed",
+      "min": 3,
+      "max": 20,
+      "step": 1,
+      "unit": "s",
+      "label": "Automatic scrolling speed",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "Font",
+      "default": "heading",
+      "options": [
+        {
+          "label": "Heading",
+          "value": "heading"
+        },
+        {
+          "label": "Body",
+          "value": "body"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font Weight",
+      "default": "400",
+      "options": [
+        {
+          "label": "Light",
+          "value": "300"
+        },
+        {
+          "label": "Regular",
+          "value": "400"
+        },
+        {
+          "label": "Medium",
+          "value": "500"
+        },
+        {
+          "label": "Semibold",
+          "value": "600"
+        },
+        {
+          "label": "Bold",
+          "value": "700"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text Case",
+      "default": "uppercase",
+      "options": [
+        {
+          "label": "Default",
+          "value": ""
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Capitalize",
+          "value": "capitalize"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "desktop_text_size",
+      "min": 12,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop: Text Size",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "tablet_text_size",
+      "min": 12,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Tablet: Text Size",
+      "default": 46
+    },
+    {
+      "type": "range",
+      "id": "mobile_text_size",
+      "min": 12,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile: Text Size",
+      "default": 34
+    },
+    {
+      "type": "header",
+      "content": "Imagery"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_images",
+      "label": "Enable block images",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "image_size_multiplier",
+      "min": 1,
+      "max": 2.5,
+      "step": 0.1,
+      "unit": "stp",
+      "label": "Image size multiplier",
+      "default": 1
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "portrait",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "square",
+      "label": "t:sections.featured-collection.settings.image_ratio.label"
+    },
+    {
+      "type": "header",
+      "content": "Padding:"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top:",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom:",
+      "default": 44
+    }
+  ],
+  "blocks": [
+    {
+      "type": "block",
+      "name": "Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image/Icon"
+        },
+        {
+          "type": "select",
+          "id": "image_shape",
+          "options": [
+            {
+              "value": "default",
+              "label": "t:sections.all.image_shape.options__1.label"
+            },
+            {
+              "value": "arch",
+              "label": "t:sections.all.image_shape.options__2.label"
+            },
+            {
+              "value": "blob",
+              "label": "t:sections.all.image_shape.options__3.label"
+            },
+            {
+              "value": "chevronleft",
+              "label": "t:sections.all.image_shape.options__4.label"
+            },
+            {
+              "value": "chevronright",
+              "label": "t:sections.all.image_shape.options__5.label"
+            },
+            {
+              "value": "diamond",
+              "label": "t:sections.all.image_shape.options__6.label"
+            },
+            {
+              "value": "parallelogram",
+              "label": "t:sections.all.image_shape.options__7.label"
+            },
+            {
+              "value": "round",
+              "label": "t:sections.all.image_shape.options__8.label"
+            }
+          ],
+          "default": "default",
+          "label": "t:sections.all.image_shape.label",
+          "info": "t:sections.all.image_shape.info"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "label": "Style",
+          "options": [
+            {
+              "label": "Normal",
+              "value": "normal"
+            },
+            {
+              "label": "Italic",
+              "value": "italic"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee slider"
+    }
+  ]
+}
+{% endschema %}
