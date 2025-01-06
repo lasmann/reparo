@@ -6,141 +6,168 @@
     overflow: hidden;
   }
 
-    .swiper-scrollbar,
-    .swiper-pagination {
-      display: flex !important;
-    }
-    .section-{{ section.id }}-padding {
-      padding-top: calc({{ section.settings.padding_top }}px * 0.75);
-      padding-bottom: calc({{ section.settings.padding_bottom }}px  * 0.75);
-    }
+  .section-{{ section.id }}-padding {
+    padding-top: calc({{ section.settings.padding_top }}px * 0.75);
+    padding-bottom: calc({{ section.settings.padding_bottom }}px  * 0.75);
+  }
 
-    @media screen and (min-width: 750px) {
-      .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
-      }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
     }
+  }
 {%- endstyle -%}
 
+{%- liquid
+  assign slider_loop = section.settings.slider_loop
+  assign slider_effect = section.settings.slider_effect
+  assign slider_speed = section.settings.slider_speed
+  assign slider_mobile_slides_count = section.settings.slider_mobile_slides_count
+  assign slider_mobile_center_slides = section.settings.slider_mobile_center_slides
+  assign slider_mobile_slides_gap = section.settings.slider_mobile_slides_gap
+  assign slider_enable_navigation = section.settings.slider_enable_navigation
+  assign slider_enable_freescroll = section.settings.slider_enable_freescroll
+  assign slider_tablet_slides_count = section.settings.slider_tablet_slides_count
+  assign slider_tablet_center_slides = section.settings.slider_tablet_center_slides
+  assign slider_tablet_slides_gap = section.settings.slider_tablet_slides_gap
+  assign slider_desktop_slides_count = section.settings.slider_desktop_slides_count
+  assign slider_desktop_center_slides = section.settings.slider_desktop_center_slides
+  assign slider_desktop_slides_gap = section.settings.slider_desktop_slides_gap
+  assign slider_pagination = section.settings.slider_pagination
+-%}
+
 {%- capture slider_options -%}
-    {
-    {% if section.settings.slider_loop %}
-    'loop': true,
-    'loopAddBlankSlides': true,
+  {
+    {% if slider_loop %}
+      'loop': true,
+      'loopAddBlankSlides': true,
     {% endif %}
-    {% unless section.settings.slider_effect == 'default' and section.settings.slider_mobile_slides_count > 1 %}
-    'effect': '{{ section.settings.slider_effect }}',
-    'crossFade': false,
+    {% unless slider_effect == 'default' and slider_mobile_slides_count > 1 %}
+      'effect': '{{ slider_effect }}',
+      'crossFade': false,
     {% endunless %}
-    'speed': {{ section.settings.slider_speed | times: 100 }},
+    'speed': {{ slider_speed }},
     'autoplay': false,
     'grabCursor': true,
-    'slidesPerView': {{ section.settings.slider_mobile_slides_count }},
-    {% if section.settings.slider_grouped_slides %}
-    'slidesPerGroup': {{ section.settings.slider_mobile_slides_count }},
-    {% endif %}
-    'centeredSlides': {{ section.settings.slider_mobile_center_slides }},
-    'spaceBetween': {{ section.settings.slider_mobile_slides_gap }},
+    'slidesPerView': {{ slider_mobile_slides_count }},
+    {% comment %} {% if section.settings.slider_grouped_slides %}
+      'slidesPerGroup': {{ slider_mobile_slides_count }},
+    {% endif %} {% endcomment %}
+    {% unless slider_loop %}
+      'centeredSlides': {{ slider_mobile_center_slides }},
+    {% endunless %}
+    'spaceBetween': {{ slider_mobile_slides_gap }},
     'mousewheel': {
       'forceToAxis': true,
       'thresholdDelta': 20
     },
-    {% if section.settings.slider_enable_navigation %}
-    'navigation': {
-      'prevEl': '#swiper-prev-button--{{ section.id }}',
-      'nextEl': '#swiper-next-button--{{ section.id }}'
-    },
+    {% if slider_enable_navigation %}
+      'navigation': {
+        'prevEl': '#swiper-prev-button--{{ section.id }}',
+        'nextEl': '#swiper-next-button--{{ section.id }}'
+      },
     {% endif %}
     'breakpoints': {
-        '750': {
-          {% unless section.settings.slider_effect == 'default' and section.settings.slider_tablet_slides_count > 1 %}
-          'effect': '{{ section.settings.slider_effect }}',
+      '750': {
+        {% if slider_enable_freescroll %}
+          {% comment %} 'freeMode': true, {% endcomment %}
+          'cssMode': true,
+        {% endif %}
+        {% unless slider_effect == 'default' and slider_tablet_slides_count > 1 %}
+          'effect': '{{ slider_effect }}',
           'crossFade': false,
-          {% endunless %}
-          'slidesPerView': {{ section.settings.slider_tablet_slides_count }},
-          {% if section.settings.slider_grouped_slides %}
-          'slidesPerGroup': {{ section.settings.slider_tablet_slides_count }},
-          {% endif %}
-          'spaceBetween': {{ section.settings.slider_tablet_slides_gap }},
-          'centeredSlides': {{ section.settings.slider_tablet_center_slides }}
-        },
-        '1200': {
-          {% unless section.settings.slider_effect == 'default' and section.settings.slider_desktop_slides_count > 1 %}
-          'effect': '{{ section.settings.slider_effect }}',
-          'crossFade': false,
-          {% endunless %}
-          {% if section.settings.slider_grouped_slides %}
-          'slidesPerGroup': {{ section.settings.slider_desktop_slides_count }},
-          {% endif %}
-          'slidesPerView': {{ section.settings.slider_desktop_slides_count }},
-          'spaceBetween': {{ section.settings.slider_desktop_slides_gap }},
-          'centeredSlides': {{ section.settings.slider_desktop_center_slides }}
-        }
+        {% endunless %}
+        'slidesPerView': {{ slider_tablet_slides_count }},
+        {% comment %} {% if section.settings.slider_grouped_slides %}
+          'slidesPerGroup': {{ slider_tablet_slides_count }},
+        {% endif %} {% endcomment %}
+        {% unless slider_loop %}
+          'centeredSlides': {{ slider_tablet_center_slides }},
+        {% endunless %}
+        'spaceBetween': {{ slider_tablet_slides_gap }}
+      },
+      '1200': {
+        {% unless slider_effect == 'default' and slider_desktop_slides_count > 1 %}
+        'effect': '{{ slider_effect }}',
+        'crossFade': false,
+        {% endunless %}
+        {% comment %} {% if section.settings.slider_grouped_slides %}
+          'slidesPerGroup': {{ slider_desktop_slides_count }},
+        {% endif %} {% endcomment %}
+        'slidesPerView': {{ slider_desktop_slides_count }},
+        {% unless slider_loop %}
+          'centeredSlides': {{ slider_desktop_center_slides }},
+        {% endunless %}
+        'spaceBetween': {{ slider_desktop_slides_gap }}
+      }
     },
-    {%- if section.settings.slider_pagination == 'bullets' -%}
+    {%- if slider_pagination == 'bullets' -%}
       'pagination': {
         'el': '#swiper-pagination--{{ section.id }}'
       }
-    {%- elsif section.settings.slider_pagination == 'dynamic-bullets' -%}
+    {%- elsif slider_pagination == 'dynamic-bullets' -%}
       'pagination': {
         'el': '#swiper-pagination--{{ section.id }}',
         'dynamicBullets': true
       }
-    {%- elsif section.settings.slider_pagination == 'progress' -%}
+    {%- elsif slider_pagination == 'progress' -%}
       'scrollbar': {
         'el': '#swiper-scrollbar--{{ section.id }}'
       }
     {%- endif -%}
-    }
-  {%- endcapture -%}
+  }
+{%- endcapture -%}
 
 {% capture section_slides %}
-    {% for block in section.blocks %}
-        {% if block.settings.image_hover_effect == 'fade' %}
-          {% assign target_hover_effect = 'fade' %}
-        {% elsif block.settings.image_hover_effect == 'zoom' %}
-          {% assign target_hover_effect = 'zoom' %}
-        {% else %}
-          {% assign target_hover_effect = 'overlay' %}
-        {% endif %}
-        {% case block.type %}
-        {% when 'image' %}
-            <li class="swiper-slide" data-swiper-slide>
-                {% if block.settings.url != blank %}
-                    {% assign html_tag = 'a' %}
-                {% else %}
-                    {% assign html_tag = 'div' %}
-                {% endif %}
-                <{{html_tag}} {% if block.settings.url != blank %}href="{{ block.settings.url }}" class="full-unstyled-link {{ section.settings.blocks_content_alignment }}"{% else %} class="{{ section.settings.blocks_content_alignment }}"{% endif %}>
-                    <div class="media media-hover-effect media-hover-effect--{{ target_hover_effect }} global-media-settings {% if block.settings.image_shape and block.settings.image_shape != 'default' %} shape--{{ block.settings.image_shape }} {% endif %} media--{{ section.settings.image_ratio }} ">
-                    {%- if block.settings.image != blank -%}
-                        {%- assign widths = '460, 535, 750, 1070, 1500' -%}
-                        {%- capture sizes -%}
-                        (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
-                        (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
-                        {%- endcapture -%}
-                        {{
-                          block.settings.image
-                          | image_url: width: 1500
-                          | image_tag: sizes: sizes, widths: widths, fetchpriority: fetch_priority
-                        }}
-                    {%- else -%}
-                      {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-                    {%- endif -%}
-                    {% if target_hover_effect == 'overlay' %}
-                    <span class="media-hover-effect-icon">
-                      {% assign icon_src = block.settings.image_hover_effect |  append: '.svg' %} 
-                      {{ icon_src | inline_asset_content }}
-                    </span>
-                    {% endif %}
-                    </div>
-                    <div class="{{ block.settings.blocks_text_size }}">{{ block.settings.heading }}</div>
-                </{{html_tag}}>
-            </li>
-        {% endcase %}
-    {% endfor %}
-  {% endcapture %}
+  {% for block in section.blocks %}
+    {% liquid
+      if block.settings.image_hover_effect == 'fade'
+        assign target_hover_effect = 'fade'
+      elsif block.settings.image_hover_effect == 'zoom'
+        assign target_hover_effect = 'zoom'
+      else
+        assign target_hover_effect = 'overlay'
+      endif
+
+      if block.settings.url != blank
+        assign html_tag = 'a'
+      else
+        assign html_tag = 'div'
+      endif
+    %}
+
+    {% case block.type %}
+      {% when 'image' %}
+        <li class="swiper-slide" data-swiper-slide>
+          <{{ html_tag }} {% if block.settings.url != blank %}href="{{ block.settings.url }}" class="full-unstyled-link {{ section.settings.blocks_content_alignment }}"{% else %} class="{{ section.settings.blocks_content_alignment }}"{% endif %}>
+            <div class="media media-hover-effect media-hover-effect--{{ target_hover_effect }} global-media-settings {% if section.settings.image_shape and section.settings.image_shape != 'default' %} shape--{{ section.settings.image_shape }} {% endif %} media--{{ section.settings.image_ratio }} ">
+            {% liquid
+              if block.settings.image != blank
+                capture sizes
+                  render 'sizes-attribute'
+                endcapture
+
+                render 'image', image: block.settings.image, widths: '460, 535, 750, 1070, 1500', src_width: 1500, sizes: sizes, class: 'media'
+              else
+                echo 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg'
+              endif
+            %}
+
+            {% if target_hover_effect == 'overlay' %}
+              <span class="media-hover-effect-icon">
+                {% assign icon_src = block.settings.image_hover_effect |  append: '.svg' %} 
+                {{ icon_src | inline_asset_content }}
+              </span>
+              {% endif %}
+            </div>
+            
+            <div class="{{ section.settings.blocks_text_size }}">{{ block.settings.heading }}</div>
+          </{{ html_tag }}>
+        </li>
+    {% endcase %}
+  {% endfor %}
+{% endcapture %}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div class="section-{{ section.id }}-padding scroll-trigger animate--slide-in">
@@ -167,15 +194,25 @@
             </ul>
           </div>
         </swiper-slider>
-        <div class="slider-wrapper__navigation">
-          <button id="swiper-prev-button--{{ section.id }}" class="swiper-button full-unstyled-button" data-type="prev">
-            {{- 'icon-arrow.svg' | inline_asset_content -}}
-          </button>
-          <button id="swiper-next-button--{{ section.id }}" class="swiper-button full-unstyled-button" data-type="next">
-            {{- 'icon-arrow.svg' | inline_asset_content -}}
-          </button>
-        </div>
-        {% if section.settings.slider_pagination == 'progress' %}
+        {% if section.settings.slider_enable_navigation %}
+          <div class="slider-wrapper__navigation">
+            <button
+              id="swiper-prev-button--{{ section.id }}"
+              class="swiper-button full-unstyled-button"
+              data-type="prev"
+            >
+              {{- 'icon-arrow.svg' | inline_asset_content -}}
+            </button>
+            <button
+              id="swiper-next-button--{{ section.id }}"
+              class="swiper-button full-unstyled-button"
+              data-type="next"
+            >
+              {{- 'icon-arrow.svg' | inline_asset_content -}}
+            </button>
+          </div>
+        {% endif %}
+        {% if section.settings.slider_pagination == 'progress' and section.settings.slider_loop == false %}
           <div
             class="slider-wrapper__pagination swiper-pagination-nav swiper-scrollbar"
             id="swiper-scrollbar--{{ section.id }}"
@@ -197,7 +234,8 @@
     {
       "type": "checkbox",
       "id": "full_width",
-      "label": "Full Width",
+      "label": "Expand to full page width",
+      "info": "Zoom out to see the effect",
       "default": false
     },
     {
@@ -361,6 +399,47 @@
     },
     {
       "type": "select",
+      "id": "image_shape",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:sections.all.image_shape.options__1.label"
+        },
+        {
+          "value": "arch",
+          "label": "t:sections.all.image_shape.options__2.label"
+        },
+        {
+          "value": "blob",
+          "label": "t:sections.all.image_shape.options__3.label"
+        },
+        {
+          "value": "chevronleft",
+          "label": "t:sections.all.image_shape.options__4.label"
+        },
+        {
+          "value": "chevronright",
+          "label": "t:sections.all.image_shape.options__5.label"
+        },
+        {
+          "value": "diamond",
+          "label": "t:sections.all.image_shape.options__6.label"
+        },
+        {
+          "value": "parallelogram",
+          "label": "t:sections.all.image_shape.options__7.label"
+        },
+        {
+          "value": "round",
+          "label": "t:sections.all.image_shape.options__8.label"
+        }
+      ],
+      "default": "default",
+      "label": "t:sections.all.image_shape.label",
+      "info": "t:sections.all.image_shape.info"
+    },
+    {
+      "type": "select",
       "id": "blocks_text_size",
       "options": [
         {
@@ -406,7 +485,7 @@
     {
       "type": "checkbox",
       "id": "slider_clip_contents",
-      "label": "Clip Content",
+      "label": "Clip content",
       "default": true
     },
     {
@@ -417,15 +496,10 @@
     },
     {
       "type": "checkbox",
-      "id": "slider_enable_navigation",
-      "label": "Enable Navigation",
-      "default": true
-    },
-    {
-      "type": "checkbox",
       "id": "slider_grouped_slides",
-      "label": "Group Slides",
-      "default": true
+      "label": "Group slides",
+      "default": true,
+      "info": "TODO"
     },
     {
       "type": "select",
@@ -447,18 +521,36 @@
       "type": "range",
       "id": "slider_speed",
       "label": "Speed",
-      "min": 4,
-      "max": 15,
-      "step": 0.5,
+      "min": 0,
+      "max": 1500,
+      "step": 50,
       "unit": "ms",
-      "default": 4
+      "default": 400
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_enable_freescroll",
+      "label": "Enable mobile free scroll",
+      "info": "Blocks won't snap to a grid on mobile devices. Incompatible with speed setting.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "slider_enable_navigation",
+      "label": "Enable navigation",
+      "default": true
     },
     {
       "type": "select",
       "id": "slider_pagination",
       "label": "Pagination style",
+      "info": "Progress bar style is incompatible with loop mode",
       "default": "bullets",
       "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
         {
           "value": "bullets",
           "label": "Bullets"
@@ -607,47 +699,6 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
-        },
-        {
-          "type": "select",
-          "id": "image_shape",
-          "options": [
-            {
-              "value": "default",
-              "label": "t:sections.all.image_shape.options__1.label"
-            },
-            {
-              "value": "arch",
-              "label": "t:sections.all.image_shape.options__2.label"
-            },
-            {
-              "value": "blob",
-              "label": "t:sections.all.image_shape.options__3.label"
-            },
-            {
-              "value": "chevronleft",
-              "label": "t:sections.all.image_shape.options__4.label"
-            },
-            {
-              "value": "chevronright",
-              "label": "t:sections.all.image_shape.options__5.label"
-            },
-            {
-              "value": "diamond",
-              "label": "t:sections.all.image_shape.options__6.label"
-            },
-            {
-              "value": "parallelogram",
-              "label": "t:sections.all.image_shape.options__7.label"
-            },
-            {
-              "value": "round",
-              "label": "t:sections.all.image_shape.options__8.label"
-            }
-          ],
-          "default": "default",
-          "label": "t:sections.all.image_shape.label",
-          "info": "t:sections.all.image_shape.info"
         },
         {
           "type": "select",

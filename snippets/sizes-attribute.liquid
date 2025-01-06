@@ -1,0 +1,18 @@
+{%- comment -%}theme-check-disable LiquidTag{%- endcomment -%}
+{%- comment -%}
+  Parameters:
+
+  Usage:
+  {% render 'sizes-attribute', min: '100vw', sm: 'calc(100vw - 64px)', xl: 'calc(100vw - 128px)', max: '1320px' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign page_width = settings.page_width
+-%}
+
+{%- capture sizes %}
+  (min-width: {{ page_width }}px) {{ page_width | minus: 100 | divided_by: 2 }}px,
+  (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
+{% endcapture -%}
+
+{{- sizes -}}

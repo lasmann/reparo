@@ -27,7 +27,7 @@
     {% endif %}
 
     {% render 'meta-tags' %}
-
+    
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
@@ -35,6 +35,8 @@
     <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'swiper-slider.js' |  asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
@@ -257,6 +259,7 @@
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -313,7 +316,7 @@
       {{ content_for_layout }}
     </main>
 
-    {% render 'back-to-top' %}
+    {% comment %} {% render 'back-to-top' %} {% endcomment %}
 
     {% sections 'footer-group' %}
 
@@ -387,10 +390,5 @@
     {% if settings.swatches_global_mode == 'buttons' %}
       <script src="{{ 'color-option-previewer.js' |  asset_url }}" defer="defer"></script>
     {% endif %}
-    
-    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
-    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
-    <script src="{{ 'swiper-slider.js' |  asset_url }}" defer="defer"></script>
-
   </body>
 </html>

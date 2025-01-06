@@ -14,7 +14,7 @@
 
 
 .swiper--no-clip {
-    overflow: visible !important;
+  overflow: visible !important;
 }
 /* Slider navigation  custom */
 
@@ -32,74 +32,78 @@
 }
 
 .slider-wrapper__navigation > * {
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-80%);
-    transition: opacity var(--duration-default) ease, visibility var(--duration-default) ease, transform var(--duration-default) ease;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-80%);
+  transition: opacity var(--duration-default) ease, visibility var(--duration-default) ease, transform var(--duration-default) ease;
 }
 
 .slider-wrapper:hover .slider-wrapper__navigation > * {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .slider-wrapper:hover .slider-wrapper__navigation > *:last-child{
-    transition-delay: var(--duration-default);
+  transition-delay: var(--duration-default);
 }
 
 
 .swiper-button {
-    --size: 4.5rem;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--size);
-    height: var(--size);
-    min-width: var(--size);
-    min-height: var(--size);
-    border: .2rem solid rgb(var(--color-foreground));
+  --size: 4.5rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size);
+  height: var(--size);
+  min-width: var(--size);
+  min-height: var(--size);
+  border: .2rem solid rgb(var(--color-foreground));
 	background: rgb(var(--color-background)) !important;	
-    pointer-events: all;
+  pointer-events: all;
 }
 
-.swiper-button[disabled] {
-    visibility: hidden !important;
-    opacity: 0 !important;
+.swiper-button[disabled],
+.swiper-button-lock {
+  visibility: hidden !important;
+  opacity: 0 !important;
 }
 
 .swiper-button[data-type="prev"] {
-    left: 1rem;
+  left: 1rem;
 }
 
 .swiper-button[data-type="prev"] > .icon  {
-    rotate: 180deg;
+  rotate: 180deg;
 }
 
 .swiper-button[data-type="next"] {
-    right: 1rem;
+  right: 1rem;
 }
 
 @media screen and (min-width: 750px) {
-    .slider-wrapper__navigation {
-        display: flex;
-    }
+  .slider-wrapper__navigation {
+    display: flex;
+  }
 }
 
 /* Swiper Pagination: Global */
 .swiper-pagination-nav {
-    display: flex;
-    position: relative !important;
-    margin-top: 4rem;
-    justify-content: center;
-    overflow: hidden;
+  display: flex;
+  position: relative !important;
+  margin-top: 4rem;
+  overflow: hidden;
+}
+
+.swiper-pagination-nav:not(.swiper-scrollbar-horizontal) {
+  justify-content: center;
 }
 
 @media screen and (min-width: 750) {
-    .swiper-pagination-nav {
-        margin-top: 2.5rem;
-    } 
+  .swiper-pagination-nav {
+    margin-top: 2.5rem;
+  }  
 }
 
 /* Swiper Pagination: Scrollbar */
