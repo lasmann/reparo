@@ -1,0 +1,154 @@
+/* General */
+auto-play-video {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+.autoplay-video-card {
+    --overlay-padding: 1.15rem;
+    --overlay-gap: 1rem;
+    --overlay-image-size: 5.5rem;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: var(--aspect-ratio);
+}
+
+.autoplay-video-card--with-overlay::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	opacity: .7;
+	pointer-events: none;
+	background: linear-gradient(to top,rgb(var(--color-background)) 10%,rgb(var(--color-background),0) 40% 79%);
+	z-index: 1;
+}
+
+auto-play-video[data-vid-state="paused"] [video-control-type="play-pause"] .icon-pause{
+    display: none;
+}
+
+auto-play-video[data-vid-state="playing"] [video-control-type="play-pause"] .icon-play{
+    display: none;
+}
+
+auto-play-video[data-vid-volume-state="muted"] [video-control-type="mute"] .icon-unmute{
+    display: none;
+}
+
+auto-play-video[data-vid-volume-state="unmuted"] [video-control-type="mute"] .icon-mute{
+    display: none;
+}
+
+/* Media */
+.autoplay-video-card__media {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.autoplay-video-card__media > *{ 
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    object-fit: cover;
+    object-position: center ;
+}
+
+/* Progress */
+.autoplay-video-card__progress {
+	position: absolute;
+	z-index: 1;
+	width: 100%;
+	top: 0;
+	display: flex;
+}
+
+.autoplay-video-card__progress .custom-progress-bar{
+    --custom-progress-bar-padding: 1rem;
+}
+
+.autoplay-video-card__progress .custom-progress-bar__progress {
+	border: .2rem solid rgb(var(--color-background));
+}
+
+/* Controls */
+.autoplay-video-card__controls {
+	position: absolute;
+	/* right: 0; */
+	top: 4rem;
+	right: 1rem;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 0.8rem;
+}
+
+
+.autoplay-video-card__controls button[video-control-type] {
+	width: 4rem;
+	height: 4rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgb(var(--color-foreground));
+	border: 0.2rem solid rgba(var(--color-background));
+    border-radius: var(--buttons-radius-outset);
+}
+
+.autoplay-video-card__controls button[video-control-type] svg {
+	display: flex;
+	width: 40%;
+	height: auto;
+	min-width: 40%;
+}
+
+/* Content */
+.autoplay-video-card__overlay {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+	display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+	width: calc(100% - var(--overlay-padding) * 2);
+	padding: var(--overlay-padding);
+	flex-wrap: wrap;
+	z-index: 2;
+    pointer-events: none;
+}
+
+.autoplay-video-card__content-image {
+	width: var(--overlay-image-size);
+    height: var(--overlay-image-size);
+    min-width: var(--overlay-image-size);
+    min-height: var(--overlay-image-size);
+}
+
+.autoplay-video-card__information {
+	gap: 0.4rem;
+	display: flex;
+	flex-direction: column;
+	line-height: 1.25;
+}
+
+/* Other */
+.autoplay-video-card + .product-upsell-item {
+	margin-top: 1rem;
+}

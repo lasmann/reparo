@@ -1,0 +1,33 @@
+.custom-progress-bar {
+  --custom-progress-bar-progress-height: 0.8rem;
+  --custom-progress-bar-padding: 1rem 0;
+  display: block;
+  width: 100%;
+  padding: var(--custom-progress-bar-padding);
+}
+
+.custom-progress-bar > * + * {
+  margin-top: 1rem;
+}
+
+.custom-progress-bar__progress {
+  width: 100%;
+  display: block;
+  position: relative;
+  height: var(--custom-progress-bar-progress-height);
+  min-height: var(--custom-progress-bar-progress-height);
+  background: rgb(var(--progress-range-color));
+}
+
+.custom-progress-bar__thumb { 
+  display: block !important;
+  height: inherit;
+  min-height: inherit;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transition: width var(--duration-default) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: width;
+  background: rgb(var(--progress-thumb-color));
+}

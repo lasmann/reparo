@@ -1268,7 +1268,6 @@ if (!customElements.get('bulk-add')) {
   customElements.define('bulk-add', BulkAdd);
 }
 
-
 Shopify.formatMoney = function (cents, format) {
   if (typeof cents == 'string') {
     cents = cents.replace('.', '');
@@ -1517,4 +1516,3 @@ class BackToTopButton extends HTMLElement {
 }
 
 customElements.define('back-to-top', BackToTopButton);
-
