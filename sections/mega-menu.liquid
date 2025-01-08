@@ -1,0 +1,493 @@
+{% assign target_id = section.settings.target_id %}
+{% assign mega_menu_id = 'MegaMenu-' | append: target_id %}
+
+{% if target_id != blank %}
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: calc({{ section.settings.padding_top }}px * 0.75);
+      padding-bottom: calc({{ section.settings.padding_bottom }}px  * 0.75);
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <mega-menu
+    id="{{ mega_menu_id }}"
+
+    aria-hidden="true"
+    style="
+      --menu-content-gap: {{ section.settings.content_gap | divided_by: 10 }}rem;
+      --menu-content-vertical-gap: {{ section.settings.content_vertical_gap | divided_by: 10 }}rem;
+      --menu-content-alignment: {{ section.settings.content_alignment }};
+    "
+    class="color-{{ section.settings.color_scheme }} gradient mega-menu"
+  >
+    <template id="megaMenuTemplate-{{ mega_menu_id }}">
+      <ul
+        class="
+          section-{{ section.id }}-padding
+          {% if section.settings.content_layout == 'grid' %}
+          grid
+          grid--{{ section.settings.content_layout_columns }}-col-desktop
+          {% endif %}
+          {% if section.settings.full_width %} page-width--full-width {% endif %} mega-menu__content page-width
+        "
+      >
+        {% for block in section.blocks %}
+          <li
+            class="
+              mega-menu__item
+              {% if block.settings.grow %} mega-menu__item--grow {% endif %}
+              {% if section.settings.content_layout == 'grid' %} grid__item {% endif %}
+              mega-menu__item--{{ block.type | handleize }}
+            "
+            {{ block.shopify_attributes }}
+          >
+            {% case block.type %}
+              {% when 'menu' %}
+                <div class="linklist">
+                  <strong class="linklist__heading">{{ block.settings.title }}</strong>
+                  <ul class="linklist__menu">
+                    {% for link in block.settings.menu.links %}
+                      {% if link.url != blank %}
+                        <li class="linklist__item">
+                          <a class="link" href="{{ link.url }}">{{ link.title }}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% when 'card' %}
+                {% assign has_link = false %}
+                {% if block.settings.url != blank %}
+                  {% assign has_link = true %}
+                {% endif %}
+                {% render 'multicolumn-card',
+                  link_wrapper: true,
+                  image: block.settings.image,
+                  image_shape: block.settings.image_shape,
+                  image_ratio: block.settings.image_ratio,
+                  title: block.settings.heading,
+                  text: block.settings.text,
+                  link_label: block.settings.link_label,
+                  link: block.settings.url,
+                  number_of_columns: block.settings.content_layout_columns
+                %}
+              {% when 'image' %}
+                {% if block.settings.button_url != blank %}
+                  <a href="{{ block.settings.url }}" class="full-unstyled-link">
+                {% endif %}
+                <div class="media media--{{ block.settings.image_ratio }} shape--{{ block.settings.image_shape }}">
+                  {% if block.settings.image %}
+                    {%- assign widths = '360, 400, 535, 600' -%}
+                    {%- capture sizes -%}
+                      (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
+                      (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
+                      {%- endcapture -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: 600
+                      | image_tag:
+                        sizes: sizes,
+                        widths: widths,
+                        fetchpriority: 'auto',
+                        loading: 'lazy',
+                        alt: block.settings.image.alt
+                    }}
+                  {%- else -%}
+                    {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {%- endif -%}
+                </div>
+                {% unless block.settings.heading == blank %}
+                  <strong class="text-body">{{ block.settings.heading }}</strong>
+                {% endunless %}
+                {% unless block.settings.text == blank %}
+                  <div class="rte text-body">{{ block.settings.text }}</div>
+                {% endunless %}
+                {% if block.settings.button_url != blank %}
+                  </a>
+                {% endif %}
+            {% endcase %}
+          </li>
+        {% endfor %}
+      </ul>
+      <div class="mega-menu__footer">
+        {% if section.settings.footer_link != blank %}
+          <a class="button button--full-width" href="{{ section.settings.footer_link }}">
+            {{- section.settings.footer_link_name -}}
+          </a>
+        {% endif %}
+      </div>
+    </template>
+  </mega-menu>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Mega Menu",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width"
+    },
+    {
+      "type": "text",
+      "id": "target_id",
+      "label": "Target"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "content_layout",
+      "label": "Layout",
+      "default": "grid",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "content_layout_columns",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "label": "Columns",
+      "info": "When Grid layout is selected",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Horizontal Gap",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "content_vertical_gap",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Vertical Gap",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Alignment",
+      "default": "flex-start",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "space-between",
+          "label": "Justify"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Menu Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "footer_link_name",
+      "label": "Link name"
+    },
+    {
+      "type": "url",
+      "id": "footer_link",
+      "label": "Link"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Menu",
+      "type": "menu",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Heading",
+          "default": "Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "main-menu"
+        }
+      ]
+    },
+    {
+      "name": "Card",
+      "type": "card",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "grow",
+          "label": "Grow",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "options": [
+            {
+              "value": "portrait",
+              "label": "t:sections.featured-collection.settings.image_ratio.options__2.label"
+            },
+            {
+              "value": "square",
+              "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
+            }
+          ],
+          "default": "square",
+          "label": "t:sections.featured-collection.settings.image_ratio.label"
+        },
+        {
+          "type": "select",
+          "id": "image_shape",
+          "options": [
+            {
+              "value": "default",
+              "label": "t:sections.all.image_shape.options__1.label"
+            },
+            {
+              "value": "arch",
+              "label": "t:sections.all.image_shape.options__2.label"
+            },
+            {
+              "value": "blob",
+              "label": "t:sections.all.image_shape.options__3.label"
+            },
+            {
+              "value": "chevronleft",
+              "label": "t:sections.all.image_shape.options__4.label"
+            },
+            {
+              "value": "chevronright",
+              "label": "t:sections.all.image_shape.options__5.label"
+            },
+            {
+              "value": "diamond",
+              "label": "t:sections.all.image_shape.options__6.label"
+            },
+            {
+              "value": "parallelogram",
+              "label": "t:sections.all.image_shape.options__7.label"
+            },
+            {
+              "value": "round",
+              "label": "t:sections.all.image_shape.options__8.label"
+            }
+          ],
+          "default": "default",
+          "label": "t:sections.all.image_shape.label",
+          "info": "t:sections.all.image_shape.info"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link name"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Url"
+        }
+      ]
+    },
+    {
+      "name": "Image",
+      "type": "image",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "grow",
+          "label": "Grow",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "options": [
+            {
+              "value": "portrait",
+              "label": "t:sections.featured-collection.settings.image_ratio.options__2.label"
+            },
+            {
+              "value": "square",
+              "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
+            }
+          ],
+          "default": "square",
+          "label": "t:sections.featured-collection.settings.image_ratio.label"
+        },
+        {
+          "type": "select",
+          "id": "image_shape",
+          "options": [
+            {
+              "value": "default",
+              "label": "t:sections.all.image_shape.options__1.label"
+            },
+            {
+              "value": "arch",
+              "label": "t:sections.all.image_shape.options__2.label"
+            },
+            {
+              "value": "blob",
+              "label": "t:sections.all.image_shape.options__3.label"
+            },
+            {
+              "value": "chevronleft",
+              "label": "t:sections.all.image_shape.options__4.label"
+            },
+            {
+              "value": "chevronright",
+              "label": "t:sections.all.image_shape.options__5.label"
+            },
+            {
+              "value": "diamond",
+              "label": "t:sections.all.image_shape.options__6.label"
+            },
+            {
+              "value": "parallelogram",
+              "label": "t:sections.all.image_shape.options__7.label"
+            },
+            {
+              "value": "round",
+              "label": "t:sections.all.image_shape.options__8.label"
+            }
+          ],
+          "default": "default",
+          "label": "t:sections.all.image_shape.label",
+          "info": "t:sections.all.image_shape.info"
+        },
+        {
+          "type": "text",
+          "id": "url",
+          "label": "Url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mega Menu",
+      "blocks": [
+        {
+          "type": "menu"
+        },
+        {
+          "type": "menu"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -989,6 +989,16 @@ summary::-webkit-details-marker {
 }
 
 @media screen and (min-width: 990px) {
+  .grid--8-col-desktop .grid__item {
+    width: calc(12.5% - var(--grid-desktop-horizontal-spacing) * 7 / 8);
+    max-width: calc(12.5% - var(--grid-desktop-horizontal-spacing) * 7 / 8);
+  }
+
+  .grid--7-col-desktop .grid__item {
+    width: calc(14.2857% - var(--grid-desktop-horizontal-spacing) * 6 / 7);
+    max-width: calc(14.2857% - var(--grid-desktop-horizontal-spacing) * 6 / 7);
+  }
+
   .grid--6-col-desktop .grid__item {
     width: calc(16.66% - var(--grid-desktop-horizontal-spacing) * 5 / 6);
     max-width: calc(16.66% - var(--grid-desktop-horizontal-spacing) * 5 / 6);
@@ -3594,4 +3604,17 @@ details-disclosure > details {
   100% {
     transform: translateX(100%) scaleX(0);
   }
+}
+
+
+
+/* New custom component: LinkList */
+.linklist__heading {
+  display: block;
+}
+
+.linklist__menu {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
 }

@@ -1267,3 +1267,29 @@ class BulkAdd extends HTMLElement {
 if (!customElements.get('bulk-add')) {
   customElements.define('bulk-add', BulkAdd);
 }
+
+class ResourceLoader {
+  static loadResources() {
+    window.onload = () => {
+      // Find all elements with the data-load attribute
+      const resources = document.querySelectorAll('[data-load="true"]');
+
+      resources.forEach((resource) => {
+        if (resource.tagName === 'SCRIPT') {
+          const script = document.createElement('script');
+          script.src = resource.getAttribute('data-src');
+          script.type = 'text/javascript';
+          document.body.appendChild(script);
+        } else if (resource.tagName === 'LINK' && resource.getAttribute('rel') === 'stylesheet') {
+          const link = document.createElement('link');
+          link.href = resource.getAttribute('data-href');
+          link.rel = 'stylesheet';
+          document.head.appendChild(link);
+        }
+      });
+    };
+  }
+}
+
+// Load resources after the page has fully loaded
+ResourceLoader.loadResources();

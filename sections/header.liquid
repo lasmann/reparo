@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-cart-notification.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- if settings.predictive_search_enabled -%}
   <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
@@ -294,11 +295,12 @@
 
     connectedCallback() {
       this.header = document.querySelector('.section-header');
+      this.announcementBar = document.querySelector('.announcement-bar-section');
       this.headerIsAlwaysSticky = this.getAttribute('data-sticky-type') === 'always' || this.getAttribute('data-sticky-type') === 'reduce-logo-size';
       this.headerBounds = {};
 
       this.setHeaderHeight();
-
+      window.addEventListener('scroll', this.setHeaderHeight.bind(this));
       window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
 
       if (this.headerIsAlwaysSticky) {
@@ -320,6 +322,11 @@
 
     setHeaderHeight() {
       document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`);
+      document.documentElement.style.setProperty('--announcement-height', `${this.announcementBar.offsetHeight}px`);
+      document.documentElement.style.setProperty('--header-offset', 
+        `${window.scrollY > this.announcementBar.offsetHeight 
+            ? this.header.offsetHeight
+            : (this.header.offsetHeight + this.announcementBar.offsetHeight) - window.scrollY - 1}px`);
     }
 
     disconnectedCallback() {
@@ -505,10 +512,6 @@
           "label": "t:sections.header.settings.sticky_header_type.options__1.label"
         },
         {
-          "value": "on-scroll-up",
-          "label": "t:sections.header.settings.sticky_header_type.options__2.label"
-        },
-        {
           "value": "always",
           "label": "t:sections.header.settings.sticky_header_type.options__3.label"
         },
@@ -517,7 +520,7 @@
           "label": "t:sections.header.settings.sticky_header_type.options__4.label"
         }
       ],
-      "default": "on-scroll-up",
+      "default": "always",
       "label": "t:sections.header.settings.sticky_header_type.label"
     },
     {

@@ -372,5 +372,10 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'swiper-slider.js' |  asset_url }}" defer="defer"></script>
+    <script data-load="true" data-src="{{ 'mega-menu.js' |  asset_url }}"></script>
   </body>
 </html>
