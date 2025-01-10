@@ -1,28 +1,48 @@
+{%- liquid
+  assign accordion_main_icon = 'caret'
+
+  if accordion_main_icon == 'caret'
+    assign icon_effect = 'rotate'
+  else
+    assign icon_effect = 'change'
+  endif
+-%}
+
 <accordion-row
   animate
-  class="accordion color-{{section.settings.container_color_scheme}} gradient"
+  id="AccordionRow-{{ accordion_id }}-{{ section.id }}"
+  class="color-{{ color_schema }} gradient"
+  {% if block_attributes %}
+    {{ block_attributes }}
+  {% endif %}
 >
   <details
     id="Details-{{ accordion_id }}-{{ section.id }}"
+    class="accordion {{ size }}"
+    data-icon-effect="{{ icon_effect }}"
     {% if is_open %}
       open
     {% endif %}
   >
-    <summary id="Summary-{{ accordion_id }}-{{ section.id }}">
-      <h3 class="accordion__title uppercase accordion__title--body accordion__title--medium inline-richtext">
-        {{ accordion_title }}
-      </h3>
+    <summary id="Summary-{{ accordion_id }}-{{ section.id }}" class="accordion__button">
+      <h4 class="accorditon__title">
+        {% if custom_icon %}
+          {% render 'icon-accordion', icon: custom_icon %}
+        {% endif %}
+        <span class="inline-richtext">{{ heading }}</span>
+      </h4>
       <span class="accordion__icon">
         {{- 'icon-caret.svg' | inline_asset_content -}}
       </span>
     </summary>
     <div
-      class="accordion__content rte text-body text-body--smaller"
+      class="accordion__content rte"
       id="CollapsibleAccordion-{{ accordion_id }}-{{ section.id }}"
       role="region"
       aria-labelledby="Summary-{{ accordion_id }}-{{ section.id }}"
     >
-      {{ accordion_content }}
+      {{ content }}
+      {{ page_content }}
     </div>
   </details>
 </accordion-row>

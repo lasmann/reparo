@@ -1268,7 +1268,6 @@ if (!customElements.get('bulk-add')) {
   customElements.define('bulk-add', BulkAdd);
 }
 
-
 Shopify.formatMoney = function (cents, format) {
   if (typeof cents == 'string') {
     cents = cents.replace('.', '');
@@ -1374,89 +1373,109 @@ class AccordionRow extends HTMLElement {
     this.isExpanding = false;
 
     if (this.summary) {
-      this.summary.addEventListener('click', (e) => this.onClick(e));
+      this.summary.addEventListener('click', (e) => this.toggleAccordion(e));
+      this.setupAdminListeners();
     }
   }
-
-  onClick(e) {
+  toggleAccordion(e) {
     e.preventDefault();
 
     this.details.style.overflow = 'hidden';
+
     if (this.isClosing || !this.details.open) {
-      this.open();
+      this.openAccordion();
     } else if (this.isExpanding || this.details.open) {
-      this.shrink();
+      this.closeAccordion();
     }
   }
 
-  shrink() {
+  closeAccordion() {
     this.isClosing = true;
 
-    const summaryStyle = window.getComputedStyle(this.summary);
     const startHeight = `${this.details.offsetHeight}px`;
-    const endHeight = `${this.summary.offsetHeight + parseInt(summaryStyle.marginTop)}px`;
+    const endHeight = `${this.summary.offsetHeight + this.getSummaryMargin()}px`;
 
-    if (this.animation) {
-      this.animation.cancel();
-    }
+    this.cancelAnimationIfRunning();
 
-    this.animation = this.details.animate(
-      {
-        height: [startHeight, endHeight],
-      },
-      {
-        duration: 250,
-        easing: 'ease',
-      }
-    );
+    this.animation = this.details.animate({ height: [startHeight, endHeight] }, { duration: 250, easing: 'ease' });
 
-    this.animation.onfinish = () => this.onAnimationFinish(false);
+    this.animation.onfinish = () => this.handleAnimationEnd(false);
     this.animation.oncancel = () => (this.isClosing = false);
   }
 
-  open() {
+  openAccordion() {
     this.details.style.height = `${this.details.offsetHeight}px`;
     this.details.open = true;
-    window.requestAnimationFrame(() => this.expand());
+    window.requestAnimationFrame(() => this.expandAccordion());
   }
 
-  expand() {
+  expandAccordion() {
     this.isExpanding = true;
 
-    const summaryStyle = window.getComputedStyle(this.summary);
     const startHeight = `${this.details.offsetHeight}px`;
-    const endHeight = `${this.summary.offsetHeight + parseInt(summaryStyle.marginTop) + this.content.offsetHeight}px`;
+    const endHeight = `${this.summary.offsetHeight + this.getSummaryMargin() + this.content.offsetHeight}px`;
 
-    if (this.animation) {
-      this.animation.cancel();
-    }
+    this.cancelAnimationIfRunning();
 
-    this.animation = this.details.animate(
-      {
-        height: [startHeight, endHeight],
-      },
-      {
-        duration: 400,
-        easing: 'ease-out',
-      }
-    );
-    this.animation.onfinish = () => this.onAnimationFinish(true);
+    this.animation = this.details.animate({ height: [startHeight, endHeight] }, { duration: 300, easing: 'ease-out' });
+
+    this.animation.onfinish = () => this.handleAnimationEnd(true);
     this.animation.oncancel = () => (this.isExpanding = false);
   }
 
-  onAnimationFinish(open) {
-    this.details.open = open;
+  handleAnimationEnd(isOpen) {
+    this.details.style.height = '';
+    this.details.style.overflow = '';
+    this.details.open = isOpen;
+
     this.animation = null;
     this.isClosing = false;
     this.isExpanding = false;
-    this.details.style.height = this.details.style.overflow = '';
+  }
+
+  cancelAnimationIfRunning() {
+    if (this.animation) {
+      this.animation.cancel();
+    }
+  }
+
+  getSummaryMargin() {
+    const summaryStyle = window.getComputedStyle(this.summary);
+    return parseInt(summaryStyle.marginTop, 10) || 0;
+  }
+
+  setupAdminListeners() {
+    document.addEventListener('shopify:block:select', (e) => {
+      AccordionRow.openAccordionById(e.target.id);
+    });
+
+    document.addEventListener('shopify:block:deselect', (e) => {
+      AccordionRow.closeAccordionById(e.target.id);
+    });
+  }
+
+  static openAccordionById(id) {
+    const accordion = document.getElementById(id);
+
+    if (accordion instanceof AccordionRow) {
+      accordion.openAccordion();
+    } else {
+      console.warn(`No AccordionRow element found with ID: ${id}`);
+    }
+  }
+
+  static closeAccordionById(id) {
+    const accordion = document.getElementById(id);
+
+    if (accordion instanceof AccordionRow) {
+      accordion.closeAccordion();
+    } else {
+      console.warn(`No AccordionRow element found with ID: ${id}`);
+    }
   }
 }
 
 customElements.define('accordion-row', AccordionRow);
-
-const accordionRow = document.createElement('accordion-row');
-document.body.appendChild(accordionRow);
 
 class BackToTopButton extends HTMLElement {
   constructor() {
@@ -1517,4 +1536,3 @@ class BackToTopButton extends HTMLElement {
 }
 
 customElements.define('back-to-top', BackToTopButton);
-
