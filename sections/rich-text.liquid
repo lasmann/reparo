@@ -21,16 +21,22 @@
         {%- for block in section.blocks -%}
           {%- case block.type -%}
             {%- when 'heading' -%}
-              <h2
-                class="rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {% assign html_tag = block.settings.heading_html_tag %}
+              <{{ html_tag }}
+                class="rich-text__heading rte inline-richtext {{ block.settings.heading_weight }} {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                 {{ block.shopify_attributes }}
                 {% if settings.animations_reveal_on_scroll %}
                   data-cascade
                   style="--animation-order: {{ forloop.index }};"
                 {% endif %}
               >
-                {{ block.settings.heading }}
-              </h2>
+                {% render 'text-decoration',
+                  text: block.settings.heading,
+                  target_text: block.settings.decorator_text,
+                  class: block.settings.decorator_effect,
+                  gradient: block.settings.decorator_gradient
+                %}
+              </{{ html_tag }}>
             {%- when 'caption' -%}
               <p
                 class="rich-text__caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -44,7 +50,7 @@
               </p>
             {%- when 'text' -%}
               <div
-                class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                class="rich-text__text rte {{ block.settings.text_size }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                 {{ block.shopify_attributes }}
                 {% if settings.animations_reveal_on_scroll %}
                   data-cascade
@@ -195,31 +201,137 @@
         },
         {
           "type": "select",
-          "id": "heading_size",
+          "id": "heading_html_tag",
           "options": [
             {
+              "value": "h6",
+              "label": "h6"
+            },
+            {
+              "value": "h5",
+              "label": "h5"
+            },
+            {
+              "value": "h4",
+              "label": "h4"
+            },
+            {
+              "value": "h3",
+              "label": "h3"
+            },
+            {
               "value": "h2",
-              "label": "t:sections.all.heading_size.options__1.label"
+              "label": "h2"
             },
             {
               "value": "h1",
-              "label": "t:sections.all.heading_size.options__2.label"
+              "label": "h1"
+            }
+          ],
+          "default": "h1",
+          "label": "HTML Tag"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h4",
+              "label": "h4"
+            },
+            {
+              "value": "h3",
+              "label": "h3"
+            },
+            {
+              "value": "h2",
+              "label": "h2"
+            },
+            {
+              "value": "h1",
+              "label": "h1"
             },
             {
               "value": "h0",
-              "label": "t:sections.all.heading_size.options__3.label"
-            },
-            {
-              "value": "hxl",
-              "label": "t:sections.all.heading_size.options__4.label"
-            },
-            {
-              "value": "hxxl",
-              "label": "t:sections.all.heading_size.options__5.label"
+              "label": "h0"
             }
           ],
           "default": "h1",
           "label": "t:sections.all.heading_size.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_weight",
+          "options": [
+            {
+              "value": "font-weight--light",
+              "label": "Light"
+            },
+            {
+              "value": "font-weight--regular",
+              "label": "Regular"
+            },
+            {
+              "value": "font-weight--medium",
+              "label": "Medium"
+            },
+            {
+              "value": "font-weight--semibold",
+              "label": "Semibold"
+            },
+            {
+              "value": "font-weight--bold",
+              "label": "Bold"
+            }
+          ],
+          "default": "font-weight--bold",
+          "label": "Heading Weight"
+        },
+        {
+          "type": "header",
+          "content": "Text Decoration"
+        },
+        {
+          "type": "text",
+          "id": "decorator_text",
+          "label": "Target text"
+        },
+        {
+          "type": "select",
+          "id": "decorator_effect",
+          "label": "Decoration style",
+          "options": [
+            {
+              "value": "underline-native",
+              "label": "Underline"
+            },
+            {
+              "value": "underline-wavy",
+              "label": "Wavy underline"
+            },
+            {
+              "value": "line-through",
+              "label": "Line-through"
+            },
+            {
+              "value": "underline-1",
+              "label": "Custom underline - 1"
+            },
+            {
+              "value": "underline-2",
+              "label": "Custom underline - 2"
+            },
+            {
+              "value": "text-gradient",
+              "label": "Gradient"
+            }
+          ]
+        },
+        {
+          "type": "color_background",
+          "id": "decorator_gradient",
+          "label": "Gradient",
+          "info": "*Only if you selected 'Gradient' effect."
         }
       ]
     },
@@ -282,6 +394,30 @@
           "id": "text",
           "default": "t:sections.rich-text.blocks.text.settings.text.default",
           "label": "t:sections.rich-text.blocks.text.settings.text.label"
+        },
+        {
+          "type": "select",
+          "id": "text_size",
+          "options": [
+            {
+              "value": "text-body text-body--s",
+              "label": "Smaller"
+            },
+            {
+              "value": "text-body",
+              "label": "Default"
+            },
+            {
+              "value": "text-body text-body--l",
+              "label": "Large"
+            },
+            {
+              "value": "text-body text-body--xl",
+              "label": "Extra Larger"
+            }
+          ],
+          "default": "text-body",
+          "label": "Text size"
         }
       ]
     },
