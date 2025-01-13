@@ -45,13 +45,20 @@
         class="page-width"
       {% endif %}
     >
-      {%- unless section.settings.heading == blank -%}
-        <div class="title-wrapper title-wrapper--no-top-margin{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-          <h2 class="title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
-        </div>
-      {%- endunless -%}
+      {% render 'section-header',
+        heading: section.settings.heading,
+        heading_size: section.settings.heading_size,
+        heading_weight: section.settings.heading_weight,
+        heading_html_tag: section.settings.heading_html_tag,
+        desktop_content_position: section.settings.header_desktop_content_alignment,
+        content_content_position: section.settings.header_content_alignment
+      %}
     </div>
     <deferred-media
+      {% if section.settings.enable_video_autoplay %}
+        data-media-autoplay
+      {% endif %}
+      data-media-volume="{{ section.settings.video_volume  | divided_by: 100.0  }}"
       class="video-section__media deferred-media gradient global-media-settings{% if section.settings.full_width %} global-media-settings--full-width{% endif %}{% if fix_ratio %} media-fit-cover{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
       data-media-id="{{ video_id }}"
       {% if poster != null %}
@@ -93,6 +100,7 @@
               class="js-youtube"
               allow="autoplay; encrypted-media"
               allowfullscreen
+              data-media-type="youtube"
               title="{{ section.settings.description | escape }}"
             ></iframe>
           {%- else -%}
@@ -101,18 +109,23 @@
               class="js-vimeo"
               allow="autoplay; encrypted-media"
               allowfullscreen
+              data-media-type="vimeo"
               title="{{ section.settings.description | escape }}"
             ></iframe>
           {%- endif -%}
         {%- else -%}
+          {% assign video_muted = false %}
+          {% if section.settings.enable_video_autoplay %}
+            {% assign video_muted = true %}
+          {% endif %}
           {{
             section.settings.video
             | video_tag:
               image_size: '1100x',
               autoplay: true,
               loop: section.settings.enable_video_looping,
-              controls: true,
-              muted: false
+              controls: section.settings.enable_video_controls,
+              muted: video_muted
           }}
         {%- endif -%}
       </template>
@@ -134,6 +147,38 @@
       "id": "heading",
       "default": "t:sections.video.settings.heading.default",
       "label": "t:sections.video.settings.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_html_tag",
+      "options": [
+        {
+          "value": "h6",
+          "label": "h6"
+        },
+        {
+          "value": "h5",
+          "label": "h5"
+        },
+        {
+          "value": "h4",
+          "label": "h4"
+        },
+        {
+          "value": "h3",
+          "label": "h3"
+        },
+        {
+          "value": "h2",
+          "label": "h2"
+        },
+        {
+          "value": "h1",
+          "label": "h1"
+        }
+      ],
+      "default": "h1",
+      "label": "HTML Tag"
     },
     {
       "type": "select",
@@ -164,6 +209,75 @@
       "label": "t:sections.all.heading_size.label"
     },
     {
+      "type": "select",
+      "id": "heading_weight",
+      "options": [
+        {
+          "value": "font-weight--light",
+          "label": "Light"
+        },
+        {
+          "value": "font-weight--regular",
+          "label": "Regular"
+        },
+        {
+          "value": "font-weight--medium",
+          "label": "Medium"
+        },
+        {
+          "value": "font-weight--semibold",
+          "label": "Semibold"
+        },
+        {
+          "value": "font-weight--bold",
+          "label": "Bold"
+        }
+      ],
+      "default": "font-weight--bold",
+      "label": "Heading Weight"
+    },
+    {
+      "type": "select",
+      "id": "header_desktop_content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.rich-text.settings.desktop_content_position.label",
+      "info": "t:sections.rich-text.settings.desktop_content_position.info"
+    },
+    {
+      "type": "select",
+      "id": "header_content_alignment",
+      "options": [
+        {
+          "value": "left--mobile",
+          "label": "t:sections.rich-text.settings.content_alignment.options__1.label"
+        },
+        {
+          "value": "center--mobile",
+          "label": "t:sections.rich-text.settings.content_alignment.options__2.label"
+        },
+        {
+          "value": "right--mobile",
+          "label": "t:sections.rich-text.settings.content_alignment.options__3.label"
+        }
+      ],
+      "default": "center--mobile",
+      "label": "Mobile Alignment"
+    },
+    {
       "type": "checkbox",
       "id": "enable_video_looping",
       "label": "t:sections.video.settings.enable_video_looping.label",
@@ -177,6 +291,30 @@
       "type": "video",
       "id": "video",
       "label": "t:sections.video.settings.video.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_controls",
+      "label": "Enable controls",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_autoplay",
+      "label": "Enable autoplay",
+      "default": false,
+      "info": "When enabled, the video will be muted by default."
+    },
+    {
+      "type": "range",
+      "id": "video_volume",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Default video volume",
+      "default": 25,
+      "info": "Please respect your customers' ears and avoid setting the video volume above 50% by default. ✞✞✞ Jesus Christ be praised ✞✞✞"
     },
     {
       "type": "header",
