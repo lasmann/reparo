@@ -5,7 +5,8 @@
   --alpha-badge-border: 0.1;
   --focused-base-outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
   --focused-base-outline-offset: 0.3rem;
-  --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+  --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)),
+    0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
 .product-card-wrapper .card,
@@ -465,16 +466,15 @@ table:not([class]) th {
   .left--mobile {
     text-align: left;
   }
-  
+
   .center--mobile {
     text-align: center;
   }
-  
+
   .right--mobile {
     text-align: right;
   }
 }
-
 
 .uppercase {
   text-transform: uppercase;
@@ -1159,9 +1159,8 @@ summary::-webkit-details-marker {
   transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-
 .classic-media > img,
-.classic-media > picture >img {
+.classic-media > picture > img {
   object-fit: contain;
   width: 100%;
   height: 100%;
@@ -1357,15 +1356,14 @@ button.shopify-payment-button__button--unbranded {
 
 shopify-accelerated-checkout {
   --shopify-accelerated-checkout-button-border-radius: var(--buttons-radius-outset);
-  --shopify-accelerated-checkout-button-box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius)
-  rgba(var(--color-shadow), var(--shadow-opacity));
+  --shopify-accelerated-checkout-button-box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset)
+    var(--shadow-blur-radius) rgba(var(--color-shadow), var(--shadow-opacity));
 }
 shopify-accelerated-checkout-cart {
   --shopify-accelerated-checkout-button-border-radius: var(--buttons-radius-outset);
-  --shopify-accelerated-checkout-button-box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius)
-  rgba(var(--color-shadow), var(--shadow-opacity));
+  --shopify-accelerated-checkout-button-box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset)
+    var(--shadow-blur-radius) rgba(var(--color-shadow), var(--shadow-opacity));
 }
-
 
 /* Button - other */
 
@@ -3631,4 +3629,26 @@ details-disclosure > details {
   100% {
     transform: translateX(100%) scaleX(0);
   }
+}
+
+/* Text Decoration Effects
+ component: text-decoration.liquid
+*/
+
+.text-decoration--underline-native {
+  text-decoration: underline;
+}
+
+.text-decoration--line-through {
+  text-decoration: line-through;
+}
+
+.text-decoration--underline-wavy {
+  text-decoration: wavy;
+}
+
+.text-decoration--text-gradient {
+  background-image: var(--decoration-gradient);
+  color: transparent;
+  background-clip: text;
 }
