@@ -693,24 +693,111 @@ customElements.define('modal-opener', ModalOpener);
 class DeferredMedia extends HTMLElement {
   constructor() {
     super();
-    const poster = this.querySelector('[id^="Deferred-Poster-"]');
-    if (!poster) return;
-    poster.addEventListener('click', this.loadContent.bind(this));
+    this.video = null;
+    this.isAutoplayVideo = this.hasAttribute('data-media-autoplay');
+    this.defaultVolume = Number(this.getAttribute('data-media-volume')) || 0.3; // Default to 1.0 if not provided
+    this.poster = this.querySelector('[id^="Deferred-Poster-"]');
+    this.hasLoadedContent = false;
+
+    this.observer = new IntersectionObserver(this.handleIntersection.bind(this), {
+      root: null,
+      threshold: 0.2,
+    });
+
+    this.observer.observe(this);
+
+    if (this.poster) {
+      this.poster.addEventListener('click', this.loadContent.bind(this));
+    }
+  }
+
+  handleIntersection(entries) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        if (!this.hasLoadedContent && this.isAutoplayVideo) {
+          this.loadContent();
+        } else if (this.hasLoadedContent && this.video && this.isAutoplayVideo) {
+          this.playVideo();
+        }
+      } else {
+        if (this.hasLoadedContent && this.video) {
+          this.pauseVideo();
+        }
+      }
+    });
   }
 
   loadContent(focus = true) {
-    window.pauseAllMedia();
-    if (!this.getAttribute('loaded')) {
-      const content = document.createElement('div');
-      content.appendChild(this.querySelector('template').content.firstElementChild.cloneNode(true));
+    if (this.hasLoadedContent) return;
 
-      this.setAttribute('loaded', true);
-      const deferredElement = this.appendChild(content.querySelector('video, model-viewer, iframe'));
-      if (focus) deferredElement.focus();
-      if (deferredElement.nodeName == 'VIDEO' && deferredElement.getAttribute('autoplay')) {
-        // force autoplay for safari
-        deferredElement.play();
+    console.log('Loading content...');
+    this.hasLoadedContent = true;
+
+    const template = this.querySelector('template');
+    if (!template) {
+      console.error('No <template> element found for deferred content.');
+      return;
+    }
+
+    const content = document.createElement('div');
+    content.appendChild(template.content.firstElementChild.cloneNode(true));
+    this.setAttribute('loaded', 'true');
+
+    const deferredElement = this.appendChild(content.querySelector('video, model-viewer, iframe'));
+
+    if (deferredElement) {
+      this.video = deferredElement;
+      this.setVolume(this.defaultVolume);
+
+      if (focus && !this.isAutoplayVideo) {
+        this.video.focus();
       }
+
+      if (this.video.nodeName === 'VIDEO') {
+        this.video.addEventListener('error', (e) => console.error('Video load error:', e));
+        if (this.isAutoplayVideo || deferredElement.getAttribute('autoplay')) {
+          console.log(this.isAutoplayVideo);
+          this.video.play().catch((e) => console.error('Autoplay failed:', e));
+          this.playVideo();
+        }
+      }
+    }
+  }
+
+  setVolume(value) {
+    if (this.video) {
+      console.log(value);
+      this.video.volume = value;
+    }
+  }
+
+  pauseVideo() {
+    if (this.video) {
+      this.video.pause();
+    }
+  }
+
+  playVideo() {
+    if (this.video) {
+      this.video.play().catch((e) => console.error('Play failed:', e));
+    }
+  }
+
+  disconnectedCallback() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
+
+  static get observedAttributes() {
+    return ['data-vid-volume', 'data-vid-autoplay'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'data-vid-volume' && this.video) {
+      this.setVolume(Number(newValue) || 1.0);
+    } else if (name === 'data-vid-autoplay') {
+      this.isAutoplayVideo = newValue !== null;
     }
   }
 }
