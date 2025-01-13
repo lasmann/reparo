@@ -1,0 +1,23 @@
+{% comment %}
+  Usage
+
+  {% render 'text-decoration'
+      text: { string },
+      target_text: { string },
+      class: { string }
+  %}
+{% endcomment %}
+{% capture decorated_text %}
+    <span class="text-decoration text-decoration--{{ class }}" 
+    {% if gradient %} style="--decoration-gradient: {{ gradient }}" {% endif %}>
+        {{ target_text }}
+    </span>
+  {% endcapture %}
+
+{% if target_text != blank %}
+  {% assign lower_text = text %}
+  {% assign lower_target = target_text | downcase %}
+  {{ lower_text | replace: lower_target, decorated_text }}
+{% else %}
+  {{ text }}
+{% endif %}
