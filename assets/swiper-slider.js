@@ -44,6 +44,7 @@ class SwiperSlider extends HTMLElement {
       this.initialized = true;
       this.setThumbnails();
       this.slider = new Swiper(this.slideContainer, this.sliderOptions);
+      this.slider.on('slideChange', () => this.handleAutoplayVideos());
       this.handleAutoplay();
     } else if (!window.Swiper) {
       console.warn('SwiperSlider - Swiper.js not found');
@@ -52,6 +53,26 @@ class SwiperSlider extends HTMLElement {
 
   updateSliderSize() {
     this.slider?.updateSize();
+  }
+
+  getSlide(index) {
+    return this.slides[index];
+  }
+  handleAutoplayVideos() {
+    const activeSlide = this.getSlide(this.slider.activeIndex);
+    if (!activeSlide) return;
+
+    const autoplayVideoEl = activeSlide.querySelector('auto-play-video');
+
+    if (!this.hasAttribute('data-autoplay-active-vids')) return;
+
+    if (!autoplayVideoEl) return;
+
+    if (typeof autoplayVideoEl.loadAndPlayVideo === 'function') {
+      autoplayVideoEl.loadAndPlayVideo();
+    } else {
+      console.error('The element does not have a loadAndPlayVideo method.');
+    }
   }
 
   handleAutoplay() {
