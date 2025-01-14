@@ -21,7 +21,7 @@
           "type": "buttons",
           "settings": {
             "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
+            "button_link_1": "shopify:\/\/collections\/all",
             "button_style_secondary_1": true,
             "button_label_2": "",
             "button_link_2": "",
@@ -41,9 +41,164 @@
         "show_text_box": false,
         "desktop_content_alignment": "center",
         "color_scheme": "scheme-3",
+        "image_behavior": "none",
         "mobile_content_alignment": "center",
         "stack_images_on_mobile": false,
         "show_text_below": false
+      }
+    },
+    "comparison_table_FkP9tn": {
+      "type": "comparison-table",
+      "blocks": {
+        "heading_row_gPHUkc": {
+          "type": "heading_row",
+          "settings": {
+            "cell_1_highlight": false,
+            "cell_1_content": "<p>Cheap tubs</p>",
+            "cell_2_highlight": true,
+            "cell_2_content": "<p>ONZEN</p>",
+            "cell_3_highlight": false,
+            "cell_3_content": "<p>Other premium tubs</p>"
+          }
+        },
+        "row_LVeVXy": {
+          "type": "row",
+          "settings": {
+            "title": "Price",
+            "cell_1_highlight": false,
+            "cell_1_icon": "check",
+            "cell_1_content": "<p>$2,000-$5,000</p>",
+            "cell_2_highlight": true,
+            "cell_2_icon": "check",
+            "cell_2_content": "<p>$7,999</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "cross",
+            "cell_3_content": "<p>$8,600+</p>"
+          }
+        },
+        "row_D48r9G": {
+          "type": "row",
+          "settings": {
+            "title": "Package",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>Accessories often sold <br/>separately at additional cost.</p>",
+            "cell_2_highlight": true,
+            "cell_2_icon": "check",
+            "cell_2_content": "<p>Comes with everything you need -  including one spare filter.</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "cross",
+            "cell_3_content": "<p>Accessories often sold separately at additional cost.</p>"
+          }
+        },
+        "row_dhGWcp": {
+          "type": "row",
+          "settings": {
+            "title": "Materials & Build Quality",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>Cheap, flimsy inflatable PVC, sometimes requiring plastic support props.</p>",
+            "cell_2_highlight": true,
+            "cell_2_icon": "check",
+            "cell_2_content": "<p>Lightweight, durable, premium Japanese Mizuburo Acrylic reinforced with fiberglass for added strength. Built to last a lifetime.</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "cross",
+            "cell_3_content": "<p>Acrylic material varies, with some made from cheap plastic compound Acrylonitrile Butadiene Styrene, causing discoloration of tub over time.</p>"
+          }
+        },
+        "row_f4DANB": {
+          "type": "row",
+          "settings": {
+            "title": "Cooling technology",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>External, non-integrated cooling systems that lack power efficiency and have limited cooling capacity, leading to longer wait times to reach desired temperatures.</p>",
+            "cell_2_highlight": false,
+            "cell_2_icon": "check",
+            "cell_2_content": "<p>Fully-integrated, proprietary and highly advanced 1.5HP medical-grade cooling system, similar to those used in hospitals and semiconductor manufacturing facilities.</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "check",
+            "cell_3_content": "<p>Fully-integrated, efficient, and rapid cooling systems, but may not utilize medical-grade cooling technology, which ensures reliability and precision in every application.</p>"
+          }
+        },
+        "row_kbDEPW": {
+          "type": "row",
+          "settings": {
+            "title": "Control Unit",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>Out-of-date control units that utilize basic technology, which may lead to  long-term reliability and durability issues.</p>",
+            "cell_2_highlight": false,
+            "cell_2_icon": "check",
+            "cell_2_content": "<p>Official Sony electronic control unit, designed for medical applications. Our latest Sony microcontrollers ensure the electronic components don’t break under cold or heat stress. It is also 100% waterproof, enhancing durability and safety.</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "check",
+            "cell_3_content": "<p>Advanced electronic control units. Usually waterproof and built to endure extreme temperature variations.</p>"
+          }
+        },
+        "row_EtmJjJ": {
+          "type": "row",
+          "settings": {
+            "title": "Shipping & Taxes",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>Varies</p>",
+            "cell_2_highlight": true,
+            "cell_2_icon": "check",
+            "cell_2_content": "<p>Free global express shipping. All taxes included.</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "cross",
+            "cell_3_content": "<p>Varies</p>"
+          }
+        },
+        "row_NRBf6A": {
+          "type": "row",
+          "settings": {
+            "title": "Returns",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>Varies</p>",
+            "cell_2_highlight": true,
+            "cell_2_icon": "check",
+            "cell_2_content": "<p>30-Day <a href=\"/policies/refund-policy\" target=\"_blank\" title=\"Refund Policy\">Refund Policy</a>.</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "cross",
+            "cell_3_content": "<p>Varies</p>"
+          }
+        },
+        "row_FXdh6H": {
+          "type": "row",
+          "settings": {
+            "title": "Warranty",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>Usually no warranty.</p>",
+            "cell_2_highlight": true,
+            "cell_2_icon": "check",
+            "cell_2_content": "<p>5-Year full product warranty.</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "check",
+            "cell_3_content": "<p>Varies, usually 2-3 years</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_row_gPHUkc",
+        "row_LVeVXy",
+        "row_D48r9G",
+        "row_dhGWcp",
+        "row_f4DANB",
+        "row_kbDEPW",
+        "row_EtmJjJ",
+        "row_NRBf6A",
+        "row_FXdh6H"
+      ],
+      "settings": {
+        "title": "ONZEN vs. the competition",
+        "heading_size": "h1",
+        "color_scheme": "scheme-4",
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     },
     "rich_text": {
@@ -53,13 +208,19 @@
           "type": "heading",
           "settings": {
             "heading": "Talk about your brand",
-            "heading_size": "h1"
+            "heading_html_tag": "h1",
+            "heading_size": "h1",
+            "heading_weight": "font-weight--bold",
+            "decorator_text": "",
+            "decorator_effect": "underline-native",
+            "decorator_gradient": ""
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>",
+            "text_size": "text-body"
           }
         }
       },
@@ -68,6 +229,8 @@
         "text"
       ],
       "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
         "color_scheme": "scheme-1",
         "full_width": true,
         "padding_top": 40,
@@ -77,19 +240,37 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
+        "full_width": false,
+        "heading": "Testimonials",
+        "heading_html_tag": "h1",
         "heading_size": "h2",
+        "heading_weight": "font-weight--bold",
+        "desktop_content_alignment": "center",
+        "content_alignment": "center--mobile",
         "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "show_view_all": false,
-        "swipe_on_mobile": false,
         "image_ratio": "adapt",
+        "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "columns_mobile": "2",
+        "quick_add": "none",
+        "slider_clip_contents": true,
+        "slider_loop": true,
+        "slider_enable_navigation": true,
+        "slider_grouped_slides": true,
+        "slider_effect": "default",
+        "slider_speed": 4,
+        "slider_pagination": "bullets",
+        "slider_desktop_center_slides": false,
+        "slider_desktop_slides_count": 4,
+        "slider_desktop_slides_gap": 15,
+        "slider_tablet_center_slides": false,
+        "slider_tablet_slides_count": 3,
+        "slider_tablet_slides_gap": 15,
+        "slider_mobile_center_slides": true,
+        "slider_mobile_slides_count": 1,
+        "slider_mobile_slides_gap": 15,
+        "color_scheme": "scheme-1",
         "padding_top": 28,
         "padding_bottom": 36
       }
@@ -127,6 +308,7 @@
         "heading_size": "h2",
         "desktop_layout": "left",
         "mobile_layout": "collage",
+        "card_styles": "product-card-wrapper",
         "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36
@@ -136,8 +318,16 @@
       "type": "video",
       "settings": {
         "heading": "",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "heading_html_tag": "h1",
         "heading_size": "h1",
+        "heading_weight": "font-weight--bold",
+        "header_desktop_content_alignment": "center",
+        "header_content_alignment": "center--mobile",
+        "enable_video_looping": false,
+        "enable_video_controls": true,
+        "enable_video_autoplay": false,
+        "video_volume": 25,
+        "video_url": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc",
         "description": "",
         "full_width": false,
         "color_scheme": "scheme-1",
@@ -191,9 +381,9 @@
         "background_style": "none",
         "button_label": "",
         "button_link": "",
-        "swipe_on_mobile": false,
         "color_scheme": "scheme-1",
         "columns_mobile": "1",
+        "swipe_on_mobile": false,
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -201,6 +391,7 @@
   },
   "order": [
     "image_banner",
+    "comparison_table_FkP9tn",
     "rich_text",
     "featured_collection",
     "collage",
