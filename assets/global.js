@@ -1247,6 +1247,11 @@ class ProductRecommendations extends HTMLElement {
         if (html.querySelector('.grid__item')) {
           this.classList.add('product-recommendations--loaded');
         }
+
+        const swiperSlider = this.querySelector('swiper-slider');
+        if (swiperSlider) {
+          swiperSlider.initializeSwiper();
+        }
       })
       .catch((e) => {
         console.error(e);
