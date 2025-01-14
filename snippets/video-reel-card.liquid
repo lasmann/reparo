@@ -1,0 +1,107 @@
+{% liquid
+  if target_link != blank
+    assign html_tag = 'a'
+  else
+    assign html_tag = 'div'
+  endif
+
+  assign video_alt = target_video.alt
+  assign video_sources = target_video.sources
+  assign video_loop = false
+
+  assign has_overlay = false
+
+  if text != blank or heading != blank
+    assign has_overlay = true
+  endif
+%}
+
+<auto-play-video
+  {% if autoplay_video %}
+    data-vid-preload="true"
+  {% endif %}
+  data-vid-state="paused"
+  data-vid-volume="0.1"
+  data-vid-volume-state="muted"
+>
+  <div
+    class="autoplay-video-card {% if has_overlay %} autoplay-video-card--with-overlay {% endif %} global-media-settings color-{{ target_color_scheme }} gradient"
+    style="--aspect-ratio:{{ aspect_ratio }}%"
+  >
+    <div class="autoplay-video-card__progress">
+      {% comment %} <progress class="progress-bar" value="0" max="100" video-ui-type="progress"></progress> {% endcomment %}
+      <custom-progress-bar
+        style="
+          --progress-range-color: {{ settings.free_shipping_bar_range_bg.rgb }};
+          --progress-thumb-color: {{ settings.free_shipping_bar_thumb_bg.rgb }};
+        "
+        class="custom-progress-bar"
+      >
+        <div class="custom-progress-bar__progress">
+          <div class="custom-progress-bar__thumb" progress-bar-thumb style="width: 0%;"></div>
+        </div>
+      </custom-progress-bar>
+    </div>
+    <{{ html_tag }}
+      class="autoplay-video-card__media full-unstyled-link"
+      {% if target_link != blank %}
+        href="{{ target_link }}"
+      {% endif %}
+    >
+      {{
+        target_video
+        | video_tag: image_size: '1100x', autoplay: false, loop: video_loop, controls: false, muted: true
+      }}
+    </{{ html_tag }}>
+    <div class="autoplay-video-card__controls">
+      <button
+        class="autoplay-video-card__play-pause full-unstyled-button"
+        video-control-type="play-pause"
+        aria-label="Play/Pause"
+      >
+        {{ 'icon-pause.svg' | inline_asset_content }}
+        {{ 'icon-play.svg' | inline_asset_content }}
+      </button>
+      <button
+        class="autoplay-video-card__mute full-unstyled-button"
+        video-control-type="mute"
+        aria-label="Mute/Unmute"
+      >
+        {{ 'icon-mute.svg' | inline_asset_content }}
+        {{ 'icon-unmute.svg' | inline_asset_content }}
+      </button>
+    </div>
+    {% if has_overlay %}
+      <div class="autoplay-video-card__overlay">
+        {% if content_image != blank %}
+          <div class="autoplay-video-card__content-image">
+            <div class="media media--{{ content_image_shape }}">
+              {% liquid
+                if content_image != blank
+                  capture sizes
+                    render 'sizes-attribute'
+                  endcapture
+
+                  render 'image', image: content_image, widths: '50,60,70,80,90,100', src_width: 100, sizes: sizes
+                endif
+              %}
+            </div>
+          </div>
+        {% endif %}
+        {% if text != blank or heading != blank %}
+          <div class="autoplay-video-card__information">
+            {% if heading != blank %}
+              <strong class="autoplay-video-card__content-title {{ heading_size }}">{{ heading }}</strong>
+            {% endif %}
+            {% if text != blank %}
+              <div class="autoplay-video-card__content-text {{ text_size }} rte">{{ text }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+  {% if linked_product != blank %}
+    {% render 'product-upsell-item', card_product: linked_product %}
+  {% endif %}
+</auto-play-video>

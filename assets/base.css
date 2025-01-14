@@ -1353,6 +1353,23 @@ button.shopify-payment-button__button--unbranded {
   padding: 1.2rem 2.6rem;
 }
 
+
+.button--with-icon {
+  gap: 1rem;
+}
+
+.button--with-icon .button__icon {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+}
+
+.button__icon > svg {
+  display: inherit;
+  width: inherit;
+  height: inherit;
+}
+
 /* Shopify Accelerated Checkout */
 
 shopify-accelerated-checkout {

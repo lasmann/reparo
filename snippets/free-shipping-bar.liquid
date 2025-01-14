@@ -1,4 +1,4 @@
-{{ 'component-free-shipping-bar.css' | asset_url | stylesheet_tag }}
+{{ 'component-custom-progress-bar.css' | asset_url | stylesheet_tag }}
 
 {%- if settings.enable_free_shipping_bar -%}
   {%- if settings.free_shipping_bar_limit != blank and settings.free_shipping_bar_limit contains ',' -%}
@@ -27,13 +27,13 @@
       --progress-thumb-color: {{ settings.free_shipping_bar_thumb_bg.rgb }};
     "
     class="
-      free-shipping-bar
-      {% unless left_to_spend > 0 %} free-shipping-bar--completed{% endunless %}
+      custom-progress-bar
+      {% unless left_to_spend > 0 %} custom-progress-bar--completed{% endunless %}
       {{ class }}
     "
   >
-    <div class="free-shipping-bar__status">
-      <strong class="free-shipping-bar__message">
+    <div class="custom-progress-bar__status">
+      <strong class="custom-progress-bar__message" progress-bar-message>
         {%- if left_to_spend > 0 -%}
           {%- assign left_to_spend_money = left_to_spend | money -%}
           {{ 'sections.free_shipping_bar.free_shipping_text_html' | t: value: left_to_spend_money }}
@@ -42,10 +42,10 @@
         {%- endif -%}
       </strong>
     </div>
-    <div class="free-shipping-bar__progress">
+    <div class="custom-progress-bar__progress">
       {%- assign range_quotient = limit | times: 1.0 | divided_by: 100 -%}
       {%- assign range_procent = cart.total_price | divided_by: range_quotient | at_most: 100 -%}
-      <div class="free-shipping-bar__thumb" style="width: {{ range_procent }}%;"></div>
+      <div class="custom-progress-bar__thumb" progress-bar-thumb style="width: {{ range_procent }}%;"></div>
     </div>
   </free-shipping-bar>
 {%- endif -%}
