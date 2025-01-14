@@ -1149,7 +1149,8 @@ summary::-webkit-details-marker {
 }
 
 .media > *:not(.zoom):not(.deferred-media__poster-button),
-.media model-viewer {
+.media model-viewer,
+.media picture > img {
   display: block;
   max-width: 100%;
   position: absolute;
@@ -1159,7 +1160,8 @@ summary::-webkit-details-marker {
   width: 100%;
 }
 
-.media > img {
+.media > img,
+.media picture > img {
   object-fit: cover;
   object-position: center center;
   transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1357,7 +1359,6 @@ button.shopify-payment-button__button--unbranded {
 .button--small {
   padding: 1.2rem 2.6rem;
 }
-
 
 .button--with-icon {
   gap: 1rem;
