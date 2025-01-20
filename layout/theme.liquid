@@ -27,7 +27,7 @@
     {% endif %}
 
     {% render 'meta-tags' %}
-    
+
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
@@ -283,6 +283,7 @@
 
     {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
       {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+      {{ 'component-popup.css' | asset_url | stylesheet_tag: preload: false }}
       <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
@@ -381,7 +382,6 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
-
 
     {%- if settings.enable_free_shipping_bar -%}
       <script src="{{ 'free-shipping-bar.js' | asset_url }}" defer="defer"></script>

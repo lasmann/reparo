@@ -601,7 +601,7 @@ customElements.define('header-drawer', HeaderDrawer);
 class ModalDialog extends HTMLElement {
   constructor() {
     super();
-    this.querySelector('[id^="ModalClose-"]').addEventListener('click', this.hide.bind(this, false));
+    this.querySelector('[id^="ModalClose-"]').addEventListener('click', this.hide.bind(this));
     this.addEventListener('keyup', (event) => {
       if (event.code.toUpperCase() === 'ESCAPE') this.hide();
     });
@@ -628,17 +628,29 @@ class ModalDialog extends HTMLElement {
     const popup = this.querySelector('.template-popup');
     document.body.classList.add('overflow-hidden');
     this.setAttribute('open', '');
+    this.removeAttribute('is-closing'); // Reset closing state
     if (popup) popup.loadContent();
     trapFocus(this, this.querySelector('[role="dialog"]'));
     window.pauseAllMedia();
   }
 
   hide() {
-    document.body.classList.remove('overflow-hidden');
-    document.body.dispatchEvent(new CustomEvent('modalClosed'));
-    this.removeAttribute('open');
-    removeTrapFocus(this.openedBy);
-    window.pauseAllMedia();
+    this.setAttribute('is-closing', ''); // Add the is-closing attribute
+
+    const onTransitionEnd = (event) => {
+      if (event.target === this) {
+        // Ensure event is for this element
+        this.removeAttribute('is-closing'); // Remove is-closing after transition
+        this.removeAttribute('open'); // Fully close the modal
+        this.removeEventListener('transitionend', onTransitionEnd); // Clean up listener
+        document.body.classList.remove('overflow-hidden');
+        document.body.dispatchEvent(new CustomEvent('modalClosed'));
+        removeTrapFocus(this.openedBy);
+        window.pauseAllMedia();
+      }
+    };
+
+    this.addEventListener('transitionend', onTransitionEnd);
   }
 }
 customElements.define('modal-dialog', ModalDialog);
