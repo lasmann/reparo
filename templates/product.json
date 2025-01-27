@@ -53,7 +53,6 @@
         },
         "subscriptions_app_block_3FHRUY": {
           "type": "shopify://apps/subscriptions/blocks/app-block/a3bfe9ec-96f8-4508-a003-df608a36d2ad",
-          "disabled": true,
           "settings": {
             "color_text_title": "#6D7175",
             "color_text_body": "#6D7175",
