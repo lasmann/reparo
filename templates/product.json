@@ -45,8 +45,15 @@
           "type": "quantity_selector",
           "settings": {}
         },
+        "custom_liquid_PUFhPL": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<fieldset class=\"shopify_subscriptions_fieldset\">\n            <legend class=\"shopify_subscriptions_app__title\" style=\"color: #6D7175;\">\n              Purchase options\n            </legend>\n            <div style=\"border-color:#8F8D8D; border-width: 1px; border-style: solid; background: #FFFFFF; border-radius: 0px; color: #6D7175;\">\n              \n                <div class=\"shopify_subscriptions_app_block_label shopify_subscriptions_purchase_option_wrapper\" style=\"border-bottom:1px solid #8F8D8D;\">\n                  <label>\n                    <input aria-label=\"One-time purchase. Product price 45,00 zł PLN\" type=\"radio\" name=\"purchaseOption_template--22753823949132__main_49222082396492\" id=\"AM3c0OVozWXc4THlBW__subscriptions_app_block_3FHRUY_one_time_purchase\" data-radio-type=\"one_time_purchase\" data-variant-id=\"49222082396492\" data-variant-price=\"45,00 zł PLN\" data-variant-compare-at-price=\"55,00 zł PLN\" checked=\"\">\n                    One-time purchase\n                  </label>\n                  <div class=\"shopify_subscriptions_in_widget_price shopify_subscriptions_app_block--hidden\">45,00 zł PLN</div>\n                </div>\n              \n              \n              \n                \n                <div class=\"shopify_subscriptions_app_block_label\" style=\"border-bottom:1 solid #8F8D8D;\">\n                  <div class=\"shopify_subscriptions_purchase_option_wrapper\">\n                    <label>Montly Sub</label>\n                    <div class=\"shopify_subscriptions_in_widget_price allocation_price shopify_subscriptions_app_block--hidden\" id=\"AM3c0OVozWXc4THlBW__subscriptions_app_block_3FHRUY_f9190ba7f87c315349d2379f02e75e194603c81f_49222082396492_allocation_price\">40,50 zł PLN</div>\n                  </div>\n                  <ul class=\"shopify_subscriptions_app_block_label_children\">\n                    \n\n                      \n\n                      <li>\n                        <label>\n                          <input type=\"radio\" aria-label=\"Deliver every month, 10% off. Product price 40,50 zł PLN\" name=\"purchaseOption_template--22753823949132__main_49222082396492\" data-radio-type=\"selling_plan\" data-selling-plan-id=\"689641488716\" data-selling-plan-group-id=\"AM3c0OVozWXc4THlBW__subscriptions_app_block_3FHRUY_f9190ba7f87c315349d2379f02e75e194603c81f_49222082396492\" data-selling-plan-adjustment=\"1\" data-variant-price=\"40,50 zł PLN\" data-variant-compare-at-price=\"45,00 zł PLN\">\n                          Deliver every month, 10% off\n                        </label>\n                      </li>\n                    \n                  </ul>\n                </div>\n              \n            </div>\n            <span id=\"subscriptions_badge_text\" style=\"display: none;\" aria-hidden=\"true\">\n              Subscription\n            </span>\n            <p class=\"shopify_subscriptions_app_policy\">\n              Auto-renews, skip or cancel anytime.\n              \n            </p>\n          </fieldset>"
+          }
+        },
         "subscriptions_app_block_3FHRUY": {
           "type": "shopify://apps/subscriptions/blocks/app-block/a3bfe9ec-96f8-4508-a003-df608a36d2ad",
+          "disabled": true,
           "settings": {
             "color_text_title": "#6D7175",
             "color_text_body": "#6D7175",
@@ -120,6 +127,7 @@
         "price",
         "variant_picker",
         "quantity_selector",
+        "custom_liquid_PUFhPL",
         "subscriptions_app_block_3FHRUY",
         "buy_buttons",
         "description",
