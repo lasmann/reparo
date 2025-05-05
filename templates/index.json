@@ -450,80 +450,6 @@
         "padding_bottom": 36
       }
     },
-    "video_reels_hakxTR": {
-      "type": "video-reels",
-      "blocks": {
-        "tiktok_embed_fb7QzT": {
-          "type": "tiktok_embed",
-          "settings": {
-            "link": "",
-            "linked_product": ""
-          }
-        },
-        "tiktok_embed_caaHqU": {
-          "type": "tiktok_embed",
-          "settings": {
-            "link": "",
-            "linked_product": ""
-          }
-        },
-        "tiktok_embed_aHPj6N": {
-          "type": "tiktok_embed",
-          "settings": {
-            "link": "",
-            "linked_product": ""
-          }
-        },
-        "tiktok_embed_MDRQhd": {
-          "type": "tiktok_embed",
-          "settings": {
-            "link": "",
-            "linked_product": ""
-          }
-        }
-      },
-      "block_order": [
-        "tiktok_embed_fb7QzT",
-        "tiktok_embed_caaHqU",
-        "tiktok_embed_aHPj6N",
-        "tiktok_embed_MDRQhd"
-      ],
-      "name": "TikTok Slider",
-      "settings": {
-        "full_width": false,
-        "heading": "TikTok Slider",
-        "heading_html_tag": "h1",
-        "heading_size": "h1",
-        "heading_weight": "font-weight--bold",
-        "desktop_content_alignment": "center",
-        "content_alignment": "center--mobile",
-        "autoplay_first_video": true,
-        "blocks_color_scheme": "",
-        "blocks_height": 165,
-        "blocks_text_size": "text-body",
-        "blocks_content_alignment": "center",
-        "slider_clip_contents": true,
-        "slider_loop": true,
-        "slider_grouped_slides": true,
-        "slider_effect": "default",
-        "slider_speed": 400,
-        "slider_enable_freescroll": false,
-        "slider_enable_navigation": true,
-        "slider_pagination": "bullets",
-        "slider_desktop_center_slides": false,
-        "slider_desktop_slides_count": 4,
-        "slider_desktop_slides_gap": 15,
-        "slider_tablet_center_slides": false,
-        "slider_tablet_slides_count": 3,
-        "slider_tablet_slides_gap": 15,
-        "slider_mobile_center_slides": true,
-        "slider_mobile_slides_count": 1,
-        "slider_mobile_slides_gap": 15,
-        "color_scheme": "",
-        "padding_top": 40,
-        "padding_bottom": 52
-      }
-    },
     "collage": {
       "type": "collage",
       "blocks": {
@@ -646,7 +572,6 @@
     "testimonial_slider_aHrmnd",
     "comparison_table_RrDywC",
     "featured_collection",
-    "video_reels_hakxTR",
     "collage",
     "video",
     "multicolumn"
