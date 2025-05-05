@@ -202,6 +202,24 @@
         "block_arK4CL": {
           "type": "block",
           "settings": {
+            "image": "shopify://shop_images/Untitleddesign_77_7321cde6-21a7-48a6-be0e-757e783c1993.png",
+            "image_shape": "default",
+            "title": "Hi",
+            "text_style": "italic"
+          }
+        },
+        "block_rrhwaz": {
+          "type": "block",
+          "settings": {
+            "image": "shopify://shop_images/7.png",
+            "image_shape": "default",
+            "title": "Hey",
+            "text_style": "normal"
+          }
+        },
+        "block_WQWyLC": {
+          "type": "block",
+          "settings": {
             "image": "shopify://shop_images/7.png",
             "image_shape": "default",
             "title": "heya",
@@ -210,7 +228,9 @@
         }
       },
       "block_order": [
-        "block_arK4CL"
+        "block_arK4CL",
+        "block_rrhwaz",
+        "block_WQWyLC"
       ],
       "name": "Marquee slider",
       "settings": {
@@ -222,11 +242,174 @@
         "desktop_text_size": 60,
         "tablet_text_size": 46,
         "mobile_text_size": 34,
-        "enable_images": false,
+        "enable_images": true,
         "image_size_multiplier": 1,
         "image_ratio": "square",
         "padding_top": 44,
         "padding_bottom": 44
+      }
+    },
+    "testimonial_slider_aHrmnd": {
+      "type": "testimonial-slider",
+      "blocks": {
+        "testimonial_CEzfrm": {
+          "type": "testimonial",
+          "settings": {
+            "title": "<p>Someone / Somewhere, UK</p>",
+            "star_rating": "4.5",
+            "review_text": "<p>I have bought 2 tables from them throughout the years and I love them all! They are great with answering any of your questions and are very knowledgeable. I'm satisfied 100% and will buy back.</p>",
+            "linked_product": ""
+          }
+        },
+        "testimonial_RTDerD": {
+          "type": "testimonial",
+          "settings": {
+            "title": "<p>Someone / Somewhere, UK</p>",
+            "star_rating": "4.5",
+            "review_text": "<p>I have bought 2 tables from them throughout the years and I love them all! They are great with answering any of your questions and are very knowledgeable. I'm satisfied 100% and will buy back.</p>",
+            "linked_product": ""
+          }
+        },
+        "testimonial_VeKTLB": {
+          "type": "testimonial",
+          "settings": {
+            "title": "<p>Someone / Somewhere, UK</p>",
+            "star_rating": "4.5",
+            "review_text": "<p>I have bought 2 tables from them throughout the years and I love them all! They are great with answering any of your questions and are very knowledgeable. I'm satisfied 100% and will buy back.</p>",
+            "linked_product": ""
+          }
+        },
+        "testimonial_JVCaye": {
+          "type": "testimonial",
+          "settings": {
+            "title": "<p>Someone / Somewhere, UK</p>",
+            "star_rating": "4.5",
+            "review_text": "<p>I have bought 2 tables from them throughout the years and I love them all! They are great with answering any of your questions and are very knowledgeable. I'm satisfied 100% and will buy back.</p>",
+            "linked_product": ""
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_CEzfrm",
+        "testimonial_RTDerD",
+        "testimonial_VeKTLB",
+        "testimonial_JVCaye"
+      ],
+      "name": "New: Block Slider",
+      "settings": {
+        "heading": "Testimonials",
+        "heading_html_tag": "h1",
+        "heading_size": "h1",
+        "heading_weight": "font-weight--bold",
+        "desktop_content_alignment": "center",
+        "content_alignment": "center--mobile",
+        "blocks_text_size": "h3",
+        "blocks_heading_weight": "h--regular-weight",
+        "blocks_content_alignment": "testimonial-card--center",
+        "slider_loop": true,
+        "slider_effect": "default",
+        "slider_speed": 4,
+        "slider_pagination": "bullets",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "comparison_table_RrDywC": {
+      "type": "comparison-table",
+      "blocks": {
+        "heading_row_BGrEii": {
+          "type": "heading_row",
+          "settings": {
+            "cell_1_highlight": false,
+            "cell_1_content": "<p>Just some Text</p>",
+            "cell_2_highlight": false,
+            "cell_2_content": "<p>Just some Text</p>",
+            "cell_3_highlight": false,
+            "cell_3_content": "<p>Just some Text</p>"
+          }
+        },
+        "row_mNyiJV": {
+          "type": "row",
+          "settings": {
+            "title": "Row title",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>Just some Text</p>",
+            "cell_2_highlight": false,
+            "cell_2_icon": "cross",
+            "cell_2_content": "<p>Just some Text</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "cross",
+            "cell_3_content": "<p>Just some Text</p>"
+          }
+        },
+        "row_EtBa4N": {
+          "type": "row",
+          "settings": {
+            "title": "Row title",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>Just some Text</p>",
+            "cell_2_highlight": false,
+            "cell_2_icon": "cross",
+            "cell_2_content": "<p>Just some Text</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "cross",
+            "cell_3_content": "<p>Just some Text</p>"
+          }
+        },
+        "row_PanRjy": {
+          "type": "row",
+          "settings": {
+            "title": "Row title",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>Just some Text</p>",
+            "cell_2_highlight": false,
+            "cell_2_icon": "cross",
+            "cell_2_content": "<p>Just some Text</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "cross",
+            "cell_3_content": "<p>Just some Text</p>"
+          }
+        },
+        "row_PeyYm3": {
+          "type": "row",
+          "settings": {
+            "title": "Row title",
+            "cell_1_highlight": false,
+            "cell_1_icon": "cross",
+            "cell_1_content": "<p>Just some Text</p>",
+            "cell_2_highlight": false,
+            "cell_2_icon": "cross",
+            "cell_2_content": "<p>Just some Text</p>",
+            "cell_3_highlight": false,
+            "cell_3_icon": "cross",
+            "cell_3_content": "<p>Just some Text</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_row_BGrEii",
+        "row_mNyiJV",
+        "row_EtBa4N",
+        "row_PanRjy",
+        "row_PeyYm3"
+      ],
+      "name": "Comparison Table",
+      "settings": {
+        "full_width": false,
+        "full_width_no_padding": false,
+        "heading": "Comparison Table",
+        "heading_html_tag": "h1",
+        "heading_size": "h1",
+        "heading_weight": "font-weight--bold",
+        "header_desktop_content_alignment": "center",
+        "header_content_alignment": "center--mobile",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     },
     "featured_collection": {
@@ -265,6 +448,80 @@
         "color_scheme": "scheme-1",
         "padding_top": 28,
         "padding_bottom": 36
+      }
+    },
+    "video_reels_hakxTR": {
+      "type": "video-reels",
+      "blocks": {
+        "tiktok_embed_fb7QzT": {
+          "type": "tiktok_embed",
+          "settings": {
+            "link": "",
+            "linked_product": ""
+          }
+        },
+        "tiktok_embed_caaHqU": {
+          "type": "tiktok_embed",
+          "settings": {
+            "link": "",
+            "linked_product": ""
+          }
+        },
+        "tiktok_embed_aHPj6N": {
+          "type": "tiktok_embed",
+          "settings": {
+            "link": "",
+            "linked_product": ""
+          }
+        },
+        "tiktok_embed_MDRQhd": {
+          "type": "tiktok_embed",
+          "settings": {
+            "link": "",
+            "linked_product": ""
+          }
+        }
+      },
+      "block_order": [
+        "tiktok_embed_fb7QzT",
+        "tiktok_embed_caaHqU",
+        "tiktok_embed_aHPj6N",
+        "tiktok_embed_MDRQhd"
+      ],
+      "name": "TikTok Slider",
+      "settings": {
+        "full_width": false,
+        "heading": "TikTok Slider",
+        "heading_html_tag": "h1",
+        "heading_size": "h1",
+        "heading_weight": "font-weight--bold",
+        "desktop_content_alignment": "center",
+        "content_alignment": "center--mobile",
+        "autoplay_first_video": true,
+        "blocks_color_scheme": "",
+        "blocks_height": 165,
+        "blocks_text_size": "text-body",
+        "blocks_content_alignment": "center",
+        "slider_clip_contents": true,
+        "slider_loop": true,
+        "slider_grouped_slides": true,
+        "slider_effect": "default",
+        "slider_speed": 400,
+        "slider_enable_freescroll": false,
+        "slider_enable_navigation": true,
+        "slider_pagination": "bullets",
+        "slider_desktop_center_slides": false,
+        "slider_desktop_slides_count": 4,
+        "slider_desktop_slides_gap": 15,
+        "slider_tablet_center_slides": false,
+        "slider_tablet_slides_count": 3,
+        "slider_tablet_slides_gap": 15,
+        "slider_mobile_center_slides": true,
+        "slider_mobile_slides_count": 1,
+        "slider_mobile_slides_gap": 15,
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     },
     "collage": {
@@ -386,7 +643,10 @@
     "image_banner",
     "video_reels_Enmajd",
     "marquee_slider_kNircn",
+    "testimonial_slider_aHrmnd",
+    "comparison_table_RrDywC",
     "featured_collection",
+    "video_reels_hakxTR",
     "collage",
     "video",
     "multicolumn"
