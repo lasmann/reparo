@@ -27,8 +27,8 @@
   assign other_views = 'blog, cart, all-collections, page, lookup' | split: ', '
 
   if template.name == 'blog' or template.name == 'page'
-    assign page_title = [template.name].title
-    assign page_link = [template.name].url
+    assign page_title = self[template.name].title
+    assign page_link = self[template.name].url
   elsif template.name == 'all-collections'
     assign page_title = 'Collections'
     assign page_link = routes.collections_url
@@ -274,3 +274,16 @@
   {%- endif -%}
   {{ breadcrumbs_markup }}
 {%- endif -%}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "    assign page_title = [template.name].title"
+  to: "    assign page_title = self[template.name].title"
+  position: 1168..1217
+- from: "    assign page_link = [template.name].url"
+  to: "    assign page_link = self[template.name].url"
+  position: 1218..1264
+{% endcomment %}
